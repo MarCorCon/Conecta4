@@ -42,7 +42,7 @@ public class MyUI extends UI {
     String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
 
     private String table = "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
-        HorizontalLayout arrows = new HorizontalLayout();
+    HorizontalLayout arrows = new HorizontalLayout();
 
     private GridLayout grid = new GridLayout(7, 6);
     FileResource emptyIconResource = new FileResource(new File(basepath
@@ -51,13 +51,13 @@ public class MyUI extends UI {
             + "/WEB-INF/icons/red.png"));
     FileResource yellowIconResource = new FileResource(new File(basepath
             + "/WEB-INF/icons/yellow.png"));
-    String colors = "ry";
-    String [] arrowStyles = {basepath + "/WEB-INF/icons/red_arrow_down.png", basepath + "/WEB-INF/icons/yellow_arrow_down.png"};
+    String colors = "rye";
+    String[] arrowStyles = {basepath + "/WEB-INF/icons/red_arrow_down.png", basepath + "/WEB-INF/icons/yellow_arrow_down.png"};
     int turn = 0;
     // gestión temporánea de turnos
-    char myColor; 
-    
-    
+    char myColor;
+    private int ganado = -1;
+    Label winnerLabel = new Label();
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -70,6 +70,8 @@ public class MyUI extends UI {
         updateArrows();
         layout.addComponent(arrows);
         layout.addComponent(grid);
+        layout.addComponent(winnerLabel);
+        
         setContent(layout);
     }
 
@@ -79,7 +81,7 @@ public class MyUI extends UI {
      * @return
      */
     private boolean insertPiece(int column) {
-        myColor = colors.charAt(turn%2);
+        myColor = colors.charAt(turn % 2);
         boolean inserted = false;
 
         StringBuilder tableBuilder = new StringBuilder(table);
@@ -95,19 +97,29 @@ public class MyUI extends UI {
                 //Page.getCurrent().reload();
             }
             tableBuilder.setCharAt(pos * 7 + column, myColor);
-            
+
             table = tableBuilder.toString();
-            
+            updateCell(pos*7+column, myColor);
+
             inserted = true;
-            updateTable();
+            //updateTable();
 
             List<Integer> onLine;
-            onLine = checkWin(pos*7+column);
-            if(onLine.size()==4){
-                Notification.show("GANADO!!!!");
+            onLine = checkWin(pos * 7 + column);
+            if (onLine.size() == 4) {
+                if(turn%2== 0){
+                    winnerLabel.setCaption("GANA EL ROJO");
+                    Notification.show("GANA EL ROJO", Notification.Type.ERROR_MESSAGE);
+                     ganado = 0;
+                }else{
+                    winnerLabel.setCaption("GANA EL AMARILLO");
+                     Notification.show("GANA EL AMARILLO", Notification.Type.ERROR_MESSAGE);
+
+                     ganado = 1;
+                }
             }
             turn++;
-                        updateArrows();
+            updateArrows();
 
         }
 
@@ -116,32 +128,39 @@ public class MyUI extends UI {
 
     private void updateArrows() {
         arrows.removeAllComponents();
-        FileResource arrowIconResource = new FileResource(new File(arrowStyles[turn%2]));
-        for(int i = 0; i<7;i++){
+        FileResource arrowIconResource = new FileResource(new File(arrowStyles[turn % 2]));
+        for (int i = 0; i < 7; i++) {
             final int bi = i;
             Button b = new Button(arrowIconResource);
-        b.setHeight("220px");
-        b.setWidth("220px");
-        b.addClickListener(new Button.ClickListener() {
+            b.setHeight("200px");
+            b.setWidth("200px");
+            b.addClickListener(new Button.ClickListener() {
 
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                insertPiece(bi);
-            }
-            
-        });
-        arrows.addComponent(b);
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    if (ganado < 0) {
+                        insertPiece(bi);
+                    }
+                }
+
+            });
+            arrows.addComponent(b);
         }
-   
+
     }
 
     private void updateTable() {
-        grid.removeAllComponents();
+        //grid.removeAllComponents();
         for (int i = 0; i < 42; i++) {
-            Image im = new Image();
-            im.setWidth("220px");
-            char c = table.charAt(i);
-            switch (c) {
+            updateCell(i, table.charAt(i));
+        }
+    }
+
+    private void updateCell(int pos, char colorCode){
+        
+        Image im = new Image();
+            im.setWidth("200px");
+            switch (colorCode) {
                 case 'e':
                     im.setSource(emptyIconResource);
                     break;
@@ -151,10 +170,11 @@ public class MyUI extends UI {
                 case 'y':
                     im.setSource(yellowIconResource);
             }
-            grid.addComponent(im, i % 7, i / 7);
-        }
+            if(grid.getComponent(pos % 7, pos / 7)!=null){
+                grid.removeComponent(pos % 7, pos / 7);
+            }
+            grid.addComponent(im, pos % 7, pos / 7);
     }
-
     private List<Integer> checkWin(Integer x) {
         int row = x / 7;
         List<Integer> connected = new ArrayList<>();
@@ -204,22 +224,22 @@ public class MyUI extends UI {
             connected.addAll(e);
             return connected;
         }
-        
+
         // busco hacia el noroeste
         List<Integer> nw = new ArrayList<>();
         i = x - 8;
-        while (i >=0 && i%7!= 6 && table.charAt(i) == myColor) {
+        while (i >= 0 && i % 7 != 6 && table.charAt(i) == myColor) {
             nw.add(i);
-            i-=8;
+            i -= 8;
         }
         //busco hacia el sureste
         List<Integer> se = new ArrayList<>();
         i = x + 8;
-        while (i <42 && i%7!= 0 && table.charAt(i) == myColor) {
+        while (i < 42 && i % 7 != 0 && table.charAt(i) == myColor) {
             se.add(i);
-            i+=8;
+            i += 8;
         }
-        
+
         // controlo diagonal nw se
         if (nw.size() + se.size() == 3) {
             connected.addAll(nw);
@@ -230,25 +250,25 @@ public class MyUI extends UI {
         //busco hacia el suroeste
         List<Integer> sw = new ArrayList<>();
         i = x + 6;
-        while (i <42 && i%7!= 6 && table.charAt(i) == myColor) {
+        while (i < 42 && i % 7 != 6 && table.charAt(i) == myColor) {
             sw.add(i);
-            i+=6;
+            i += 6;
         }
         // busco hacia el noreste
         List<Integer> ne = new ArrayList<>();
         i = x - 6;
-        while (i >=0 && i%7!= 0 && table.charAt(i) == myColor) {
+        while (i >= 0 && i % 7 != 0 && table.charAt(i) == myColor) {
             ne.add(i);
-            i-=6;
+            i -= 6;
         }
-              // controlo diagonal nw se
+        // controlo diagonal nw se
         if (sw.size() + ne.size() == 3) {
             connected.addAll(sw);
             connected.add(x);
             connected.addAll(ne);
-           
+
         }
-        
+
         return connected;
 
     }
