@@ -5,7 +5,7 @@
  */
 package es.upo.connect4.Database;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -72,6 +72,13 @@ public class Match implements EntityObject{
             this.messages = messages;
         }
         
+    }
+    
+    public void addMessages(Chat message){
+        if(this.messages==null){
+            this.messages = new ArrayList<Chat>();
+        }
+        messages.add(message);
     }
 
     public String getP1() {
