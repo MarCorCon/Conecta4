@@ -78,6 +78,10 @@ public class MongoClientHelper {
 
     }
     
+//    public static List<User> getUsers(){
+//        Database db = getDB(); 
+//       
+//    }
     public static User findUser(String username,String password){
         Database db = getDB();      
         User us = db.findByIndex("{\"username\":\""+username+"\",\"password\":\""+password+"\", \"type\":\"user\"}",                
