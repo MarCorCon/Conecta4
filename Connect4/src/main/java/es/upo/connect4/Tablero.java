@@ -6,6 +6,8 @@
 package es.upo.connect4;
 
 import com.vaadin.server.FileResource;
+import com.vaadin.server.Sizeable;
+import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -93,7 +95,7 @@ public class Tablero {
                 Tablero t = new Tablero();
                 horizontalLayout.removeAllComponents();
                 VerticalLayout menuIzquierda = new VerticalLayout();
-        VerticalLayout menuDerecha = new VerticalLayout();
+        VerticalLayout menuDerecha = UsersChatLayout.getUsuariosAndChat();
                 Button homePageButton = new Button("Volver al menu principal");
                 
                 homePageButton.addClickListener(new Button.ClickListener() {
@@ -120,6 +122,8 @@ public class Tablero {
         updateTable();
         updateArrows();
         tableroLayout.addComponent(arrows);
+                        
+
         tableroLayout.addComponent(grid);
         tableroLayout.addComponent(winnerLabel);
         
@@ -132,8 +136,8 @@ public class Tablero {
         for (int i = 0; i < 7; i++) {
             final int bi = i;
             Button b = new Button(arrowIconResource);
-            b.setHeight("200px");
-            b.setWidth("200px");
+            b.setHeight("100px");
+            b.setWidth("100px");
             b.addClickListener(new Button.ClickListener() {
 
                 @Override
@@ -159,7 +163,7 @@ public class Tablero {
     private void updateCell(int pos, char colorCode){
         
         Image im = new Image();
-            im.setWidth("200px");
+            
             switch (colorCode) {
                 case 'e':
                     im.setSource(emptyIconResource);
@@ -170,6 +174,9 @@ public class Tablero {
                 case 'y':
                     im.setSource(yellowIconResource);
             }
+            
+                        im.setWidth("100px");
+
             if(grid.getComponent(pos % 7, pos / 7)!=null){
                 grid.removeComponent(pos % 7, pos / 7);
             }

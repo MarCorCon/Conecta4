@@ -5,16 +5,26 @@
  */
 package es.upo.connect4;
 
+import com.vaadin.server.FileResource;
+import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import es.upo.connect4.Database.MongoClientHelper;
+import es.upo.connect4.Database.User;
+import java.io.File;
+import java.util.List;
 
 /**
  *
  * @author Marco
  */
 public class MainMenu {
+    
+    
     public static void getMainMenu(HorizontalLayout horizontalLayout){
                         horizontalLayout.removeAllComponents();
 
@@ -22,7 +32,7 @@ public class MainMenu {
         VerticalLayout menuDerecha = new VerticalLayout();
         
         Button newGameButton = new Button("Nuevo partido");
-        ComboBox listaUsuarios = new ComboBox("Usuarios");
+        VerticalLayout usersChatLayout = UsersChatLayout.getUsuariosAndChat();
 
         newGameButton.addClickListener(new Button.ClickListener() {
 
@@ -33,11 +43,13 @@ public class MainMenu {
 
         });
         menuIzquierda.addComponent(newGameButton);
-        menuDerecha.addComponent(listaUsuarios);
+        menuDerecha.addComponent(usersChatLayout);
         horizontalLayout.addComponent(menuIzquierda);
         horizontalLayout.addComponent(menuDerecha);
         
     }
+    
+   
     
 
  
