@@ -48,8 +48,11 @@ import java.util.logging.Logger;
 public class MyUI extends UI {
 
 
+        @Override
         protected void init(VaadinRequest vaadinRequest) {
+            
         HorizontalLayout horizontalLayout = new HorizontalLayout();
+        
         MainMenu.getMainMenu(horizontalLayout);
         setContent(horizontalLayout);
 

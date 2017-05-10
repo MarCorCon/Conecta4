@@ -10,6 +10,8 @@ import com.cloudant.client.api.CloudantClient;
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.Search;
 import com.cloudant.client.api.model.FindByIndexOptions;
+import com.cloudant.client.api.model.Index;
+import com.cloudant.client.api.model.Response;
 import es.upo.connect4.MyUI;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -78,10 +80,7 @@ public class MongoClientHelper {
 
     }
     
-//    public static List<User> getUsers(){
-//        Database db = getDB(); 
-//       
-//    }
+ 
     public static User findUser(String username,String password){
         Database db = getDB();      
         User us = db.findByIndex("{\"username\":\""+username+"\",\"password\":\""+password+"\", \"type\":\"user\"}",                
@@ -108,6 +107,16 @@ public class MongoClientHelper {
         return matchs;
     }
     
+        public static List<User> findAllUsers(){
+        Database db = getDB(); 
+        String query = "{\"type\": \"user\"}";
+        System.out.println(query);
+        List<User> users = db.findByIndex(query,                
+        User.class, new FindByIndexOptions()/*.sort(new IndexField("Movie_year", SortOrder.desc)).fields("Movie_name").fields("Movie_year")*/);
+        System.out.println(users); 
+        return users;
+    }
+    
     public static void createEntity(EntityObject newDoc) {
         Database db = getDB();
         db.save(newDoc);    
@@ -122,6 +131,9 @@ public class MongoClientHelper {
         Database db = getDB();
         db.remove(removedDoc);
     }
+    
+    
+  
     
     
 }
