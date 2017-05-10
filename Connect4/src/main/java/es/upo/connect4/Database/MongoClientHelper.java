@@ -116,7 +116,7 @@ public class MongoClientHelper {
     
     public static void deleteEntity(EntityObject removedDoc){
         Database db = getDB();
-        db.remove(removedDoc)
+        db.remove(removedDoc);
     }
     
     

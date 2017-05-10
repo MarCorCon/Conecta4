@@ -1,5 +1,6 @@
 package es.upo.connect4;
 
+import com.vaadin.annotations.Push;
 import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
@@ -21,9 +22,14 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import es.upo.connect4.Database.Chat;
+import es.upo.connect4.Database.Match;
+import es.upo.connect4.Database.User;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser
@@ -37,8 +43,9 @@ import java.util.List;
  * TODO: falta actualizar la vista con el nuevo tablero
  */
 @Theme("mytheme")
+@Push
 public class MyUI extends UI {
-
+    int lastPos;
     String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
 
     private String table = "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
@@ -58,6 +65,10 @@ public class MyUI extends UI {
     char myColor;
     private int ganado = -1;
     Label winnerLabel = new Label();
+    User loggedUser;
+    Chat chat;
+    Match match;
+    
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -277,4 +288,72 @@ public class MyUI extends UI {
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
+    
+    
+   /* 
+    
+    
+    class ChatPush extends Thread
+    {
+        @Override
+        public void run ()
+        {
+            
+            try {
+                Thread.sleep( 1000 );
+                
+                // Calling special 'access' method on UI object, for inter-thread communication.
+                access( new Runnable()
+                {
+                    @Override
+                    public void run ()
+                    {
+                     if(!chat.getFrom().equals(loggedUser.getId())){
+                        //arrows.addComponent(new Label(chat.getText()));
+                     }     
+                    }
+                } );
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MyUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        
+    }
+    
+    private void refreshNonOwnerChat(String text){
+        chat = new Chat(loggedUser.getId(),text);
+        match.addMessages(chat);
+        new ChatPush().run();
+    }
+    
+    
+    
+    
+    class MatchPush extends Thread
+    {
+        @Override
+        public void run ()
+        {
+            
+            try {
+                Thread.sleep( 1000 );
+                
+                access( new Runnable()
+                {
+                    @Override
+                    public void run ()
+                    {
+                     if(true){
+                         insertPiece(lastPos);
+                     }     
+                    }
+                } );
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MyUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        
+    }*/ 
 }
