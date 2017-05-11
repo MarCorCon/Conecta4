@@ -45,12 +45,15 @@ import java.util.logging.Logger;
  *
  * TODO: falta actualizar la vista con el nuevo tablero
  */
+
 @Theme("mytheme")
 @Push
 public class MyUI extends UI {
 
-    private VaadinSession vSession = VaadinSession.getCurrent();
 
+    private VaadinSession vSession = VaadinSession.getCurrent();
+    
+    @Override
     protected void init(VaadinRequest vaadinRequest) {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         if (vSession.getAttribute("user") == null) {
@@ -58,6 +61,8 @@ public class MyUI extends UI {
         } else {
 
             MainMenu.getMainMenu(horizontalLayout);
+
+   
 
        }
        // System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEYYYYYYYYYYYYYYYYYYYYY");
