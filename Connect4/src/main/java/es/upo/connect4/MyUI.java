@@ -16,6 +16,11 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
 import es.upo.connect4.Database.User;
+
+import static es.upo.connect4.Login.muestraLogin;
+import static es.upo.connect4.SignIn.muestaSigIn;
+
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,25 +42,23 @@ import java.util.logging.Logger;
 @Push
 public class MyUI extends UI {
 
-
     private VaadinSession vSession = VaadinSession.getCurrent();
-    
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {        
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         if (vSession.getAttribute("user") == null) {
-           
-            Login lg = new Login();
-            lg.muestraLogin(horizontalLayout);
+
+            muestraLogin(horizontalLayout);
+            muestaSigIn(horizontalLayout);
+        
 
         } else {
             MainMenu mm = new MainMenu();
             mm.getMainMenu(horizontalLayout);
 
-   
+        }
 
-       }
-       // System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEYYYYYYYYYYYYYYYYYYYYY");
         setContent(horizontalLayout);
     }
 

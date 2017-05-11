@@ -12,6 +12,7 @@ import com.cloudant.client.api.Search;
 import com.cloudant.client.api.model.FindByIndexOptions;
 import com.cloudant.client.api.model.Index;
 import com.cloudant.client.api.model.Response;
+import com.google.gson.JsonObject;
 import es.upo.connect4.MyUI;
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
@@ -109,8 +110,9 @@ public class MongoClientHelper {
         return users;
     }
 
-    public static void createEntity(EntityObject newDoc) {
+    public static void createEntity(EntityObject  newDoc) {
         Database db = getDB();
+        System.out.println("KE DISEEEEEEHHHHHH COLEGAAAAAAASSSSOOOOOOOOOOOOOOOO*-*-*-*-*-*---*-*-*-*-*-*-**-*-*");
         db.save(newDoc);
     }
 
