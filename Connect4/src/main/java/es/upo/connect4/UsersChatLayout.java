@@ -17,6 +17,7 @@ import com.vaadin.ui.VerticalLayout;
 import es.upo.connect4.Database.MongoClientHelper;
 import es.upo.connect4.Database.User;
 import java.io.File;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -44,8 +45,7 @@ public class UsersChatLayout {
                 BrowserWindowOpener chatOpener = new BrowserWindowOpener(PopUpChat.class);
                 BrowserWindowOpener gameOpener = new BrowserWindowOpener(PopUpGame.class);
 
-        
-        comboUsuarios.addValueChangeListener(event ->
+                comboUsuarios.addValueChangeListener(event ->
                 chatOpener.setParameter("u2", comboUsuarios.getValue().toString()));
          comboUsuarios.addValueChangeListener(event ->
                 gameOpener.setParameter("u2", comboUsuarios.getValue().toString()));
@@ -54,7 +54,7 @@ public class UsersChatLayout {
         chatOpener.setFeatures("height=300,width=300");
         chatOpener.extend(newChatButton);
         // Add a parameter
-        chatOpener.setParameter("u1", MyUI.user);
+        chatOpener.setParameter("u1", "Superman");
                 // Set a fragment
         chatOpener.setUriFragment("myfragment");
         usersHl.addComponent(newChatButton);
@@ -63,11 +63,10 @@ public class UsersChatLayout {
                 gameOpener.setFeatures("height=300,width=300");
 
                 gameOpener.extend(newGameButton);
-                gameOpener.setParameter("u1", MyUI.user);
+                gameOpener.setParameter("u1", "Superman");
                  gameOpener.setUriFragment("myfragment");
 
         usersHl.addComponent(newGameButton);
-
 
         vl.addComponent(usersHl);
         return vl;

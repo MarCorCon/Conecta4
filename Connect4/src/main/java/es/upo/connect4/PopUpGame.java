@@ -6,6 +6,7 @@
 package es.upo.connect4;
 
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 
@@ -16,10 +17,10 @@ import com.vaadin.ui.UI;
 public class PopUpGame extends UI{
         @Override
     protected void init(VaadinRequest request) {
-        setContent(new Label("Juego entre "
-                + request.getParameter("u1") 
-                + " y "
-                + request.getParameter("u2") + "."));
+            HorizontalLayout hl = new HorizontalLayout();
+            Tablero.newTablero(hl,request.getParameter("u1"),  request.getParameter("u2"));
+               this.setContent(hl);
+
                
     }
 
