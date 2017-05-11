@@ -32,7 +32,7 @@ import java.util.List;
 @Theme("mytheme")
 public class Tablero {
         String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-    private String user = MyUI.user;
+    private String usuario; 
     HorizontalLayout arrows = new HorizontalLayout();
     private Match match;
     private GridLayout grid = new GridLayout(7, 6);
@@ -47,6 +47,7 @@ public class Tablero {
     // gestión temporánea de turnos
     char myColor;
     Label winnerLabel = new Label();
+    
     private boolean insertPiece(int column) {
         boolean inserted = false;
 
@@ -95,20 +96,24 @@ public class Tablero {
 
         return inserted;
     }
-    private Tablero(String player2){
-        List <Match> matches = MongoClientHelper.findOpenMatch(user, player2);
+    private Tablero(String player1, String player2){
+        usuario = player1;
+        List <Match> matches = MongoClientHelper.findOpenMatch(usuario, player2);
         if(matches.isEmpty()){
-            Match thisMatch = new Match(user, player2);
+            Match thisMatch = new Match(usuario, player2);
             EntityObject matchEntity = thisMatch;
             MongoClientHelper.createEntity(matchEntity);
-            do{
-               matches = MongoClientHelper.findOpenMatch(user, player2);
+            match = MongoClientHelper.findOpenMatch(usuario, player2).get(0);
+                        System.out.println(match.toString());
+                        System.out.println("nuevo");
 
-            }while(matches.isEmpty());
+           
            
         }else{
             match = matches.get(0);
-            if(match.getP1().equals(user)){
+            System.out.println(match.toString());
+            System.out.println("Ya estaba");
+            if(match.getP1().equals(usuario)){
                 myColor = colors.charAt(1);
             }else{
                 myColor = colors.charAt(0);
@@ -119,28 +124,28 @@ public class Tablero {
         
         
     }
-    public static void newTablero(HorizontalLayout horizontalLayout, String otherPlayer){
+    public static void newTablero(HorizontalLayout horizontalLayout, String player1, String otherPlayer){
                 
-                Tablero t = new Tablero(otherPlayer);
+                Tablero t = new Tablero(player1, otherPlayer);
                 horizontalLayout.removeAllComponents();
-                VerticalLayout menuIzquierda = new VerticalLayout();
-                VerticalLayout menuDerecha = UsersChatLayout.getUsuariosAndChat();
-                Button homePageButton = new Button("Volver al menu principal");
-                
-                homePageButton.addClickListener(new Button.ClickListener() {
-
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                       MainMenu.getMainMenu(horizontalLayout);
-                    }
-
-                });
-                
-                menuIzquierda.addComponent(homePageButton);
-                horizontalLayout.addComponent(menuIzquierda);
+//                VerticalLayout menuIzquierda = new VerticalLayout();
+//                VerticalLayout menuDerecha = UsersChatLayout.getUsuariosAndChat();
+//                Button homePageButton = new Button("Volver al menu principal");
+//                
+//                homePageButton.addClickListener(new Button.ClickListener() {
+//
+//                    @Override
+//                    public void buttonClick(Button.ClickEvent event) {
+//                       MainMenu.getMainMenu(horizontalLayout);
+//                    }
+//
+//                });
+//                
+//                menuIzquierda.addComponent(homePageButton);
+//                horizontalLayout.addComponent(menuIzquierda);
 
                 horizontalLayout.addComponent(t.createTablero());
-                horizontalLayout.addComponent(menuDerecha);
+//                horizontalLayout.addComponent(menuDerecha);
                 
     }
     
