@@ -11,6 +11,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -26,6 +27,7 @@ import com.vaadin.ui.VerticalLayout;
 import es.upo.connect4.Database.Chat;
 import es.upo.connect4.Database.Match;
 import es.upo.connect4.Database.User;
+import static es.upo.connect4.Login.muestraLogin;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,25 +50,31 @@ import java.util.logging.Logger;
 @Push
 public class MyUI extends UI {
 
-     public static String user = "a";
-        
-        @Override
-        protected void init(VaadinRequest vaadinRequest) {
-            
-        HorizontalLayout horizontalLayout = new HorizontalLayout();
-        
-        MainMenu.getMainMenu(horizontalLayout);
-        setContent(horizontalLayout);
 
-    }
+    private VaadinSession vSession = VaadinSession.getCurrent();
     
+    @Override
+    protected void init(VaadinRequest vaadinRequest) {
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        if (vSession.getAttribute("user") == null) {
+            muestraLogin(horizontalLayout);
+        } else {
+
+            MainMenu.getMainMenu(horizontalLayout);
+
+   
+
+       }
+       // System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEYYYYYYYYYYYYYYYYYYYYY");
+        setContent(horizontalLayout);
+    }
+
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
-    
-    
-   /* 
+
+    /* 
     
     
     class ChatPush extends Thread
@@ -131,5 +139,5 @@ public class MyUI extends UI {
         }
 
         
-    }*/ 
+    }*/
 }
