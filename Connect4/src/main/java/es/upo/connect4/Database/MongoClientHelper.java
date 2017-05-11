@@ -23,12 +23,13 @@ import java.util.logging.Logger;
  * @author S
  */
 public class MongoClientHelper {
-    private static final String USERACC = "esdroen";   
+
+    private static final String USERACC = "esdroen";
     private static final String PASSWORD = "1q2w3e4rasd";
     private static final String DB = "tablero";
-    
+
     private static CloudantClient CLIENT;
-    
+
     /*
     DATABASE MODEL:
 
@@ -64,66 +65,73 @@ public class MongoClientHelper {
         "draws": 3
     }
     
-    */
-    
-    private static Database getDB(){
-        if(CLIENT==null){
+     */
+    private static Database getDB() {
+        if (CLIENT == null) {
             CLIENT = ClientBuilder.account(USERACC)
-                                     .username(USERACC)
-                                     .password(PASSWORD)
-                                     .build();   
+                    .username(USERACC)
+                    .password(PASSWORD)
+                    .build();
         }
         Database db = CLIENT.database(DB, false);
         return db;
 
     }
-    
+
 //    public static List<User> getUsers(){
 //        Database db = getDB(); 
 //       
 //    }
-    public static User findUser(String username,String password){
-        Database db = getDB();      
+    public static User findUser(String username, String password) {
+        Database db = getDB();
+        /*
         User us = db.findByIndex("{\"username\":\""+username+"\",\"password\":\""+password+"\", \"type\":\"user\"}",                
-        User.class).get(0);
-        System.out.println(us);        
+        User.class).get(0);*/
+        List<User> lis = new ArrayList<>();
+        lis = db.findByIndex("{\"username\":\"" + username + "\",\"password\":\"" + password + "\", \"type\":\"user\"}",
+                User.class);
+        User us = null;
+        if (!lis.isEmpty()) {
+            us = lis.get(0);
+        }
+
+        System.out.println(us);
         return us;
     }
-    
-    public static User findUser(String _id){
-        Database db = getDB();      
-        User us = db.findByIndex("{\"_id\":\""+_id+"\", \"type\":\"user\"}",                
-        User.class).get(0);
-        System.out.println(us);        
+
+    public static User findUser(String _id) {
+        Database db = getDB();
+        User us = db.findByIndex("{\"_id\":\"" + _id + "\", \"type\":\"user\"}",
+                User.class).get(0);
+        System.out.println(us);
         return us;
     }
-    
-    public static List<Match> findUserMatchs(String _id){
-        Database db = getDB(); 
-        String query = "{ $or: [ { p1: "+_id+"}, { p2: "+_id+" } ] }";
+
+    public static List<Match> findUserMatchs(String _id) {
+        Database db = getDB();
+        String query = "{ $or: [ { p1: " + _id + "}, { p2: " + _id + " } ] }";
         System.out.println(query);
-        List<Match> matchs = db.findByIndex(query,                
-        Match.class, new FindByIndexOptions()/*.sort(new IndexField("Movie_year", SortOrder.desc)).fields("Movie_name").fields("Movie_year")*/);
-        System.out.println(matchs); 
+        List<Match> matchs = db.findByIndex(query,
+                Match.class, new FindByIndexOptions()/*.sort(new IndexField("Movie_year", SortOrder.desc)).fields("Movie_name").fields("Movie_year")*/);
+        System.out.println(matchs);
         return matchs;
     }
-    
+
     public static void createEntity(EntityObject newDoc) {
         Database db = getDB();
-        db.save(newDoc);    
-    } 
-    
-    public static void updateEntity(EntityObject updatedDoc){  
-        Database db = getDB();
-        db.update(updatedDoc);        
+        db.save(newDoc);
     }
-    
-    public static void deleteEntity(EntityObject removedDoc){
+
+    public static void updateEntity(EntityObject updatedDoc) {
+        Database db = getDB();
+        db.update(updatedDoc);
+    }
+
+    public static void deleteEntity(EntityObject removedDoc) {
         Database db = getDB();
         db.remove(removedDoc);
     }
-    
-    
+
 }
  /*
 
