@@ -100,7 +100,7 @@ public class MongoClientHelper {
         return users;
     }
 
-    public static void createEntity(JsonObject  newDoc) {
+    public static void createEntity(EntityObject  newDoc) {
         Database db = getDB();
         System.out.println("KE DISEEEEEEHHHHHH COLEGAAAAAAASSSSOOOOOOOOOOOOOOOO*-*-*-*-*-*---*-*-*-*-*-*-**-*-*");
         db.save(newDoc);

@@ -11,36 +11,39 @@ import java.util.List;
  *
  * @author S
  */
-public class User implements EntityObject{
-  private String _id;
-  private String _rev;
-  private String type;
-  private String username;
-  private String password;
-  private int won;
-  private int lost;
-  private int draws;
+public class User implements EntityObject {
 
-  public User() {
-   
-  }
-  
-  public User(String username,String password) {
-      this.type="user";
-      this.username=username;
-      this.password=password;
-  }
+    private String _id;
+    private String _rev;
+    private String type;
+    private String username;
+    private String password;
+    private int won;
+    private int lost;
+    private int draws;
+
+    public User() {
+
+    }
+
+    public User(String username, String password) {
+        this.type = "user";
+        this.username = username;
+        this.password = password;
+        this.won = 0;
+        this.lost = 0;
+        this.lost = 0;
+    }
 
     public User(String _id, String username, String password, int won, int lost, int draws) {
         this._id = _id;
-        this.type="user";
+        this.type = "user";
         this.username = username;
         this.password = password;
         this.won = won;
         this.lost = lost;
         this.draws = draws;
     }
-  
 
     public String getId() {
         return _id;
@@ -105,11 +108,9 @@ public class User implements EntityObject{
     public void setDraws(int draws) {
         this.draws = draws;
     }
-  
-  
 
-  public String toString() {
-    return username;
-  }
-  
+    public String toString() {
+        return username;
+    }
+
 }

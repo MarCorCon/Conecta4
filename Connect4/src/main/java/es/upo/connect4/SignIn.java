@@ -48,10 +48,11 @@ public class SignIn {
 
     private static void realizarLogin(String username, String password) {
         User u = new User(username, password);
-        JsonObject json = new JsonObject();
+       /* JsonObject json = new JsonObject();
+        EntityObject jlol=new 
         json.addProperty("username", username);
-        json.addProperty("password", password);
-        MongoClientHelper.createEntity(json);
+        json.addProperty("password", password);*/
+        MongoClientHelper.createEntity(u);
         vSession.setAttribute("user", u);
 
     }
