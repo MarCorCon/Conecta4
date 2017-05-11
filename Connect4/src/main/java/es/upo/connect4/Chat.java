@@ -7,12 +7,13 @@ package es.upo.connect4;
 
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import java.io.Serializable;
 
 /**
  *
  * @author Marco
  */
-public class Chat {
+public class Chat implements Serializable{
 
     static VerticalLayout newChatWith(String username) {
         VerticalLayout chatLayout = new VerticalLayout();

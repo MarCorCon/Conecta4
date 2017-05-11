@@ -5,6 +5,7 @@
  */
 package es.upo.connect4;
 
+import com.vaadin.guice.annotation.UIScope;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
@@ -13,6 +14,7 @@ import com.vaadin.ui.UI;
  *
  * @author Marco
  */
+@UIScope
 public class PopUpChat extends UI{
         @Override
     protected void init(VaadinRequest request) {

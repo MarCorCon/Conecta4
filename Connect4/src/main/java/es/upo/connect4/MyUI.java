@@ -5,12 +5,14 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.guice.annotation.UIScope;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -43,30 +45,37 @@ import java.util.logging.Logger;
  *
  * TODO: falta actualizar la vista con el nuevo tablero
  */
-
 @Theme("mytheme")
 @Push
 public class MyUI extends UI {
 
-     public static String user = "Superman";
-        
-        @Override
-        protected void init(VaadinRequest vaadinRequest) {
-            
-        HorizontalLayout horizontalLayout = new HorizontalLayout();
-        
-        MainMenu.getMainMenu(horizontalLayout);
-        setContent(horizontalLayout);
 
-    }
+    private VaadinSession vSession = VaadinSession.getCurrent();
     
+    @Override
+    protected void init(VaadinRequest vaadinRequest) {
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        if (vSession.getAttribute("user") == null) {
+           
+            Login lg = new Login();
+            lg.muestraLogin(horizontalLayout);
+        } else {
+            MainMenu mm = new MainMenu();
+            mm.getMainMenu(horizontalLayout);
+
+   
+
+       }
+       // System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEYYYYYYYYYYYYYYYYYYYYY");
+        setContent(horizontalLayout);
+    }
+
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
-    
-    
-   /* 
+
+    /* 
     
     
     class ChatPush extends Thread
@@ -131,5 +140,5 @@ public class MyUI extends UI {
         }
 
         
-    }*/ 
+    }*/
 }

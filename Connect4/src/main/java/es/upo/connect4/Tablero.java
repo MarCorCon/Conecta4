@@ -10,6 +10,7 @@ import com.vaadin.server.FileResource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.server.VaadinService;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.GridLayout;
@@ -21,6 +22,7 @@ import com.vaadin.ui.VerticalLayout;
 import es.upo.connect4.Database.EntityObject;
 import es.upo.connect4.Database.Match;
 import es.upo.connect4.Database.MongoClientHelper;
+import es.upo.connect4.Database.User;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +34,10 @@ import java.util.List;
 @Theme("mytheme")
 public class Tablero {
         String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-    private String usuario; 
+    private String user; 
     HorizontalLayout arrows = new HorizontalLayout();
     private Match match;
+    private int userInt;
     private GridLayout grid = new GridLayout(7, 6);
     FileResource emptyIconResource = new FileResource(new File(basepath
             + "/WEB-INF/icons/empty.png"));
@@ -96,72 +99,48 @@ public class Tablero {
 
         return inserted;
     }
-    private Tablero(String player1, String player2){
-        usuario = player1;
-        List <Match> matches = MongoClientHelper.findOpenMatch(usuario, player2);
+    public Tablero(String player1, String player2){
+        user = player1;
+        List <Match> matches = MongoClientHelper.findOpenMatch(user, player2);
         if(matches.isEmpty()){
-            Match thisMatch = new Match(usuario, player2);
+            Match thisMatch = new Match(user, player2);
             EntityObject matchEntity = thisMatch;
             MongoClientHelper.createEntity(matchEntity);
-            match = MongoClientHelper.findOpenMatch(usuario, player2).get(0);
-                        System.out.println(match.toString());
-                        System.out.println("nuevo");
+            match = MongoClientHelper.findOpenMatch(user, player2).get(0);
+//                        System.out.println(match.toString());
+//                        System.out.println("nuevo");
 
            
            
         }else{
             match = matches.get(0);
-            System.out.println(match.toString());
-            System.out.println("Ya estaba");
-            if(match.getP1().equals(usuario)){
-                myColor = colors.charAt(1);
-            }else{
-                myColor = colors.charAt(0);
-            }
+//            System.out.println(match.toString());
+//            System.out.println("Ya estaba");
+            
         }
-         
+         if(match.getP1().equals(user)){
+                userInt = 1;
+            }else{
+                userInt = 0;
+            }
+            myColor = colors.charAt(userInt);
          
         
         
     }
-    public static void newTablero(HorizontalLayout horizontalLayout, String player1, String otherPlayer){
+    public HorizontalLayout newTablero(){
                 
-                Tablero t = new Tablero(player1, otherPlayer);
-                horizontalLayout.removeAllComponents();
-//                VerticalLayout menuIzquierda = new VerticalLayout();
-//                VerticalLayout menuDerecha = UsersChatLayout.getUsuariosAndChat();
-//                Button homePageButton = new Button("Volver al menu principal");
-//                
-//                homePageButton.addClickListener(new Button.ClickListener() {
-//
-//                    @Override
-//                    public void buttonClick(Button.ClickEvent event) {
-//                       MainMenu.getMainMenu(horizontalLayout);
-//                    }
-//
-//                });
-//                
-//                menuIzquierda.addComponent(homePageButton);
-//                horizontalLayout.addComponent(menuIzquierda);
-
-                horizontalLayout.addComponent(t.createTablero());
-//                horizontalLayout.addComponent(menuDerecha);
-                
-    }
-    
-    public VerticalLayout createTablero(){
-        
-        VerticalLayout tableroLayout = new VerticalLayout();
+                       
+        HorizontalLayout hl = new HorizontalLayout();
 // These buttons take the minimum size.
         updateTable();
         updateArrows();
-        tableroLayout.addComponent(arrows);
-                        
-
-        tableroLayout.addComponent(grid);
-        tableroLayout.addComponent(winnerLabel);
-        
-        return tableroLayout;
+        VerticalLayout vl = new VerticalLayout();
+        vl.addComponent(arrows);
+        vl.addComponent(grid);
+        vl.addComponent(winnerLabel);
+        hl.addComponent(vl);
+        return hl;
     }
 
     private void updateArrows() {
@@ -176,7 +155,7 @@ public class Tablero {
 
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-                    if (match.getTurn() < 42) {
+                    if (match.getTurn() < 42 && match.getTurn()%2 == userInt) {
                         insertPiece(bi);
                     }
                 }
