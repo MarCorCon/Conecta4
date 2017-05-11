@@ -9,24 +9,12 @@ import com.vaadin.guice.annotation.UIScope;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
+
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import es.upo.connect4.Database.Chat;
-import es.upo.connect4.Database.Match;
 import es.upo.connect4.Database.User;
 import java.io.File;
 import java.util.ArrayList;
@@ -53,12 +41,13 @@ public class MyUI extends UI {
     private VaadinSession vSession = VaadinSession.getCurrent();
     
     @Override
-    protected void init(VaadinRequest vaadinRequest) {
+    protected void init(VaadinRequest vaadinRequest) {        
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         if (vSession.getAttribute("user") == null) {
            
             Login lg = new Login();
             lg.muestraLogin(horizontalLayout);
+
         } else {
             MainMenu mm = new MainMenu();
             mm.getMainMenu(horizontalLayout);
