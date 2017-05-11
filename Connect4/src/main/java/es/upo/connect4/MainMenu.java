@@ -28,24 +28,11 @@ public class MainMenu {
     public static void getMainMenu(HorizontalLayout horizontalLayout){
                         horizontalLayout.removeAllComponents();
 
-               VerticalLayout menuIzquierda = new VerticalLayout();
-        VerticalLayout menuDerecha = new VerticalLayout();
         
-        Button newGameButton = new Button("Nuevo partido");
+        
         VerticalLayout usersChatLayout = UsersChatLayout.getUsuariosAndChat();
 
-        newGameButton.addClickListener(new Button.ClickListener() {
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                Tablero.newTablero(horizontalLayout);
-            }
-
-        });
-        menuIzquierda.addComponent(newGameButton);
-        menuDerecha.addComponent(usersChatLayout);
-        horizontalLayout.addComponent(menuIzquierda);
-        horizontalLayout.addComponent(menuDerecha);
+        horizontalLayout.addComponent(usersChatLayout);
         
     }
     

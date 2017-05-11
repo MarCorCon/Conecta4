@@ -43,11 +43,13 @@ import java.util.logging.Logger;
  *
  * TODO: falta actualizar la vista con el nuevo tablero
  */
+
 @Theme("mytheme")
 @Push
 public class MyUI extends UI {
 
-
+     public static String user = "a";
+        
         @Override
         protected void init(VaadinRequest vaadinRequest) {
             
