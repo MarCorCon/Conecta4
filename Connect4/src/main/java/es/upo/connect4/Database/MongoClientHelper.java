@@ -14,8 +14,6 @@ import com.cloudant.client.api.model.Index;
 import com.cloudant.client.api.model.Response;
 import es.upo.connect4.MyUI;
 import java.net.UnknownHostException;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

@@ -48,7 +48,7 @@ import java.util.logging.Logger;
 @Push
 public class MyUI extends UI {
 
-     public static String user = "a";
+     public static String user = "Superman";
         
         @Override
         protected void init(VaadinRequest vaadinRequest) {
