@@ -28,6 +28,7 @@ import es.upo.connect4.Database.Chat;
 import es.upo.connect4.Database.Match;
 import es.upo.connect4.Database.User;
 import static es.upo.connect4.Login.muestraLogin;
+import static es.upo.connect4.SignIn.muestaSigIn;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,27 +46,24 @@ import java.util.logging.Logger;
  *
  * TODO: falta actualizar la vista con el nuevo tablero
  */
-
 @Theme("mytheme")
 @Push
 public class MyUI extends UI {
 
-
     private VaadinSession vSession = VaadinSession.getCurrent();
-    
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         if (vSession.getAttribute("user") == null) {
             muestraLogin(horizontalLayout);
+            muestaSigIn(horizontalLayout);
         } else {
 
             MainMenu.getMainMenu(horizontalLayout);
 
-   
+        }
 
-       }
-       // System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEYYYYYYYYYYYYYYYYYYYYY");
         setContent(horizontalLayout);
     }
 
