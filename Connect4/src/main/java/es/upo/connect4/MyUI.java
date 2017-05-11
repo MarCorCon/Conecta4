@@ -5,13 +5,22 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.guice.annotation.UIScope;
+import com.vaadin.server.FileResource;
+import com.vaadin.server.Page;
+import com.vaadin.server.Resource;
+
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
 import es.upo.connect4.Database.User;
-import static es.upo.connect4.Login.muestraLogin;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser
@@ -24,7 +33,6 @@ import static es.upo.connect4.Login.muestraLogin;
  *
  * TODO: falta actualizar la vista con el nuevo tablero
  */
-
 @Theme("mytheme")
 @Push
 public class MyUI extends UI {
@@ -35,12 +43,14 @@ public class MyUI extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest) {        
         HorizontalLayout horizontalLayout = new HorizontalLayout();
-        User u = (User) vSession.getAttribute("user");
-        if (u == null) {            
-            muestraLogin(horizontalLayout);
-        } else {
+        if (vSession.getAttribute("user") == null) {
+           
+            Login lg = new Login();
+            lg.muestraLogin(horizontalLayout);
 
-            MainMenu.getMainMenu(horizontalLayout);
+        } else {
+            MainMenu mm = new MainMenu();
+            mm.getMainMenu(horizontalLayout);
 
    
 

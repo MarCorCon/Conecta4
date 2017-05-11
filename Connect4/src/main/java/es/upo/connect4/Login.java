@@ -14,19 +14,20 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import es.upo.connect4.Database.MongoClientHelper;
 import es.upo.connect4.Database.User;
+import java.io.Serializable;
 
 /**
  *
  * @author Daniel
  */
-public class Login {
+public class Login implements Serializable{
 
-    private static VaadinSession vSession = VaadinSession.getCurrent();
-    private static TextField nameField = new TextField("Introduzca su nombre de usuario");
-    private static PasswordField passwordField = new PasswordField("Introduzca su contraseña");
-    private static Button loginButton = new Button("login");
+    private  VaadinSession vSession = VaadinSession.getCurrent();
+    private  TextField nameField = new TextField("Introduzca su nombre de usuario");
+    private  PasswordField passwordField = new PasswordField("Introduzca su contraseña");
+    private  Button loginButton = new Button("login");
 
-    public static void muestraLogin(HorizontalLayout hl) {
+    public void muestraLogin(HorizontalLayout hl) {
         hl.removeAllComponents();
         loginButton.addClickListener(new Button.ClickListener() {
 
@@ -34,7 +35,8 @@ public class Login {
             public void buttonClick(Button.ClickEvent event) {
                 realizarLogin(nameField.getValue(), passwordField.getValue());
                 if (vSession.getAttribute("user") != null) {
-                    MainMenu.getMainMenu(hl);
+                    MainMenu mm = new MainMenu();
+                    mm.getMainMenu(hl);
                 }
             }
         });
@@ -46,7 +48,7 @@ public class Login {
 
     }
 
-    private static void realizarLogin(String username, String password) {
+    private void realizarLogin(String username, String password) {
         User u = MongoClientHelper.findUser(username, password);
         if (u != null) {
             vSession.setAttribute("user", u);

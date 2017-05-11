@@ -5,21 +5,25 @@
  */
 package es.upo.connect4;
 
+import com.vaadin.guice.annotation.UIScope;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
+import javafx.scene.control.TableRow;
 
 /**
  *
  * @author Marco
  */
+@UIScope
 public class PopUpGame extends UI{
         @Override
     protected void init(VaadinRequest request) {
-        setContent(new Label("Juego entre "
-                + request.getParameter("u1") 
-                + " y "
-                + request.getParameter("u2") + "."));
+            Tablero t = new Tablero(request.getParameter("u1"),request.getParameter("u2") );
+               this.setContent(  t.newTablero());
+
+
                
     }
 
