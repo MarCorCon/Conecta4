@@ -18,22 +18,25 @@ import com.vaadin.ui.VerticalLayout;
 import es.upo.connect4.Database.MongoClientHelper;
 import es.upo.connect4.Database.User;
 import java.io.File;
+import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
  *
  * @author Marco
  */
-public class UsersChatLayout {
+public class UsersChatLayout implements Serializable{
 
-    private static String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+    private String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
 
-    private static FileResource chatIconResource = new FileResource(new File(basepath
+    private  FileResource chatIconResource = new FileResource(new File(basepath
             + "/WEB-INF/icons/chat-icon.png"));
-    private static FileResource gameIconResource = new FileResource(new File(basepath
+    private  FileResource gameIconResource = new FileResource(new File(basepath
             + "/WEB-INF/icons/c4icon.png"));
+    private VaadinSession vSession = VaadinSession.getCurrent();
 
-    public static VerticalLayout getUsuariosAndChat() {
+    public VerticalLayout getUsuariosAndChat() {
         VaadinSession vSession= VaadinSession.getCurrent();
         List<User> listaUsuarios = MongoClientHelper.findAllUsers();
         VerticalLayout vl = new VerticalLayout();
@@ -62,7 +65,7 @@ public class UsersChatLayout {
         usersHl.addComponent(newChatButton);
 
         Button newGameButton = new Button(gameIconResource);
-        gameOpener.setFeatures("height=300,width=300");
+        gameOpener.setFeatures("height=800,width=800");
 
         gameOpener.extend(newGameButton);
         gameOpener.setParameter("u1", ((User) vSession.getAttribute("user")).getUsername());

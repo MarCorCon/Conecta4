@@ -5,30 +5,22 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.guice.annotation.UIScope;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
+
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import es.upo.connect4.Database.Chat;
-import es.upo.connect4.Database.Match;
 import es.upo.connect4.Database.User;
+
 import static es.upo.connect4.Login.muestraLogin;
 import static es.upo.connect4.SignIn.muestaSigIn;
+
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,14 +45,17 @@ public class MyUI extends UI {
     private VaadinSession vSession = VaadinSession.getCurrent();
 
     @Override
-    protected void init(VaadinRequest vaadinRequest) {
+    protected void init(VaadinRequest vaadinRequest) {        
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         if (vSession.getAttribute("user") == null) {
+
             muestraLogin(horizontalLayout);
             muestaSigIn(horizontalLayout);
-        } else {
+        
 
-            MainMenu.getMainMenu(horizontalLayout);
+        } else {
+            MainMenu mm = new MainMenu();
+            mm.getMainMenu(horizontalLayout);
 
         }
 

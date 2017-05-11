@@ -33,11 +33,11 @@ import java.util.List;
  */
 @Theme("mytheme")
 public class Tablero {
-    VaadinSession vSession= VaadinSession.getCurrent();
         String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-    private String user =((User)vSession.getAttribute("user")).getUsername();
+    private String user; 
     HorizontalLayout arrows = new HorizontalLayout();
     private Match match;
+    private int userInt;
     private GridLayout grid = new GridLayout(7, 6);
     FileResource emptyIconResource = new FileResource(new File(basepath
             + "/WEB-INF/icons/empty.png"));
@@ -50,6 +50,7 @@ public class Tablero {
     // gestión temporánea de turnos
     char myColor;
     Label winnerLabel = new Label();
+    
     private boolean insertPiece(int column) {
         boolean inserted = false;
 
@@ -98,68 +99,48 @@ public class Tablero {
 
         return inserted;
     }
-    private Tablero(String player2){
+    public Tablero(String player1, String player2){
+        user = player1;
         List <Match> matches = MongoClientHelper.findOpenMatch(user, player2);
         if(matches.isEmpty()){
             Match thisMatch = new Match(user, player2);
             EntityObject matchEntity = thisMatch;
             MongoClientHelper.createEntity(matchEntity);
-            do{
-               matches = MongoClientHelper.findOpenMatch(user, player2);
+            match = MongoClientHelper.findOpenMatch(user, player2).get(0);
+//                        System.out.println(match.toString());
+//                        System.out.println("nuevo");
 
-            }while(matches.isEmpty());
+           
            
         }else{
             match = matches.get(0);
-            if(match.getP1().equals(user)){
-                myColor = colors.charAt(1);
-            }else{
-                myColor = colors.charAt(0);
-            }
+//            System.out.println(match.toString());
+//            System.out.println("Ya estaba");
+            
         }
-         
+         if(match.getP1().equals(user)){
+                userInt = 1;
+            }else{
+                userInt = 0;
+            }
+            myColor = colors.charAt(userInt);
          
         
         
     }
-    public static void newTablero(HorizontalLayout horizontalLayout, String otherPlayer){
+    public HorizontalLayout newTablero(){
                 
-                Tablero t = new Tablero(otherPlayer);
-                horizontalLayout.removeAllComponents();
-                VerticalLayout menuIzquierda = new VerticalLayout();
-                VerticalLayout menuDerecha = UsersChatLayout.getUsuariosAndChat();
-                Button homePageButton = new Button("Volver al menu principal");
-                
-                homePageButton.addClickListener(new Button.ClickListener() {
-
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                       MainMenu.getMainMenu(horizontalLayout);
-                    }
-
-                });
-                
-                menuIzquierda.addComponent(homePageButton);
-                horizontalLayout.addComponent(menuIzquierda);
-
-                horizontalLayout.addComponent(t.createTablero());
-                horizontalLayout.addComponent(menuDerecha);
-                
-    }
-    
-    public VerticalLayout createTablero(){
-        
-        VerticalLayout tableroLayout = new VerticalLayout();
+                       
+        HorizontalLayout hl = new HorizontalLayout();
 // These buttons take the minimum size.
         updateTable();
         updateArrows();
-        tableroLayout.addComponent(arrows);
-                        
-
-        tableroLayout.addComponent(grid);
-        tableroLayout.addComponent(winnerLabel);
-        
-        return tableroLayout;
+        VerticalLayout vl = new VerticalLayout();
+        vl.addComponent(arrows);
+        vl.addComponent(grid);
+        vl.addComponent(winnerLabel);
+        hl.addComponent(vl);
+        return hl;
     }
 
     private void updateArrows() {
@@ -174,7 +155,7 @@ public class Tablero {
 
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-                    if (match.getTurn() < 42) {
+                    if (match.getTurn() < 42 && match.getTurn()%2 == userInt) {
                         insertPiece(bi);
                     }
                 }

@@ -16,21 +16,23 @@ import com.vaadin.ui.VerticalLayout;
 import es.upo.connect4.Database.MongoClientHelper;
 import es.upo.connect4.Database.User;
 import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author Marco
  */
-public class MainMenu {
+public class MainMenu implements Serializable{
     
     
-    public static void getMainMenu(HorizontalLayout horizontalLayout){
+    public void getMainMenu(HorizontalLayout horizontalLayout){
                         horizontalLayout.removeAllComponents();
 
         
+        UsersChatLayout ucl = new UsersChatLayout();
         
-        VerticalLayout usersChatLayout = UsersChatLayout.getUsuariosAndChat();
+        VerticalLayout usersChatLayout = ucl.getUsuariosAndChat();
 
         horizontalLayout.addComponent(usersChatLayout);
         
