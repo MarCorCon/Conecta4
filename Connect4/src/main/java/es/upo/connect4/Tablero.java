@@ -10,6 +10,7 @@ import com.vaadin.server.FileResource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.server.VaadinService;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.GridLayout;
@@ -21,6 +22,7 @@ import com.vaadin.ui.VerticalLayout;
 import es.upo.connect4.Database.EntityObject;
 import es.upo.connect4.Database.Match;
 import es.upo.connect4.Database.MongoClientHelper;
+import es.upo.connect4.Database.User;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +33,9 @@ import java.util.List;
  */
 @Theme("mytheme")
 public class Tablero {
+    VaadinSession vSession= VaadinSession.getCurrent();
         String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-    private String user = MyUI.user;
+    private String user =((User)vSession.getAttribute("user")).getUsername();
     HorizontalLayout arrows = new HorizontalLayout();
     private Match match;
     private GridLayout grid = new GridLayout(7, 6);
