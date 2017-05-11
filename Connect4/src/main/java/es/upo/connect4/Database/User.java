@@ -31,6 +31,17 @@ public class User implements EntityObject{
       this.password=password;
   }
 
+    public User(String _id, String username, String password, int won, int lost, int draws) {
+        this._id = _id;
+        this.type="user";
+        this.username = username;
+        this.password = password;
+        this.won = won;
+        this.lost = lost;
+        this.draws = draws;
+    }
+  
+
     public String getId() {
         return _id;
     }
@@ -85,6 +96,14 @@ public class User implements EntityObject{
 
     public void setLost(int lost) {
         this.lost = lost;
+    }
+
+    public int getDraws() {
+        return draws;
+    }
+
+    public void setDraws(int draws) {
+        this.draws = draws;
     }
   
   

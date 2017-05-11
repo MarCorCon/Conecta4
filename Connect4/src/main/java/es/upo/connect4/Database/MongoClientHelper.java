@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 /**
  *
  * @author S
+ * Base de datos en: https://esdroen.cloudant.com/dashboard.html#database/tablero/_all_docs
  */
 public class MongoClientHelper {
     private static final String USERACC = "esdroen";   
@@ -59,12 +60,23 @@ public class MongoClientHelper {
         "_id": "29590f4a818dd08395d7210fff061ec1",
         "_rev": "1-54cd3d459c2ffeb86724332ac5d81424",
         "type": "user",
-        "username": "a",
-        "password": "b",
-        "won": 1,
-        "lost": 2,
-        "draws": 3
+        "username": "Tesla",
+        "password": "nikola",
+        "won": 0,
+        "lost": 0,
+        "draws": 0
     }
+    
+    {
+  "_id": "d27ec0b724cc9f66d8333e2cf2c2b01a",
+  "_rev": "1-3748e7e9e5321a3b71e24d3d26702d46",
+  "type": "user",
+  "username": "Einstien",
+  "password": "emc2",
+  "won": 0,
+  "lost": 0,
+  "draws": 0
+}
     
     */
     
@@ -80,7 +92,7 @@ public class MongoClientHelper {
 
     }
     
- 
+    
     public static User findUser(String username,String password){
         Database db = getDB();      
         User us = db.findByIndex("{\"username\":\""+username+"\",\"password\":\""+password+"\", \"type\":\"user\"}",                
@@ -89,20 +101,38 @@ public class MongoClientHelper {
         return us;
     }
     
-    public static User findUser(String _id){
+//    public static User findUser(String _id){
+//        Database db = getDB();      
+//        User us = db.findByIndex("{\"_id\":\""+_id+"\", \"type\":\"user\"}",                
+//        User.class).get(0);
+//        System.out.println(us);        
+//        return us;
+//    }
+    
+      public static User findUser(String username){
         Database db = getDB();      
-        User us = db.findByIndex("{\"_id\":\""+_id+"\", \"type\":\"user\"}",                
+        User us = db.findByIndex("{\"username\":\""+username+"\", \"type\":\"user\"}",                
         User.class).get(0);
         System.out.println(us);        
         return us;
     }
-    
-    public static List<Match> findUserMatchs(String _id){
+    public static List<Match> findUserMatchs(String username){
         Database db = getDB(); 
-        String query = "{ $or: [ { p1: "+_id+"}, { p2: "+_id+" } ] }";
+        String query = "{ $or: [ { p1: "+username+"}, { p2: "+username+" } ] }";
         System.out.println(query);
-        List<Match> matchs = db.findByIndex(query,                
+        List<Match> matches = db.findByIndex(query,                
         Match.class, new FindByIndexOptions()/*.sort(new IndexField("Movie_year", SortOrder.desc)).fields("Movie_name").fields("Movie_year")*/);
+        System.out.println(matches); 
+        return matches;
+    }
+        public static List<Match> findOpenMatch(String player1, String player2){
+        Database db = getDB(); 
+        String query = "{ $or: [ "
+                + "{$and : [{ p1: "+player1+"}, { p2: "+player2+" }, {turn: { $lt : 42 }} ] },"
+                + "{$and : [{ p1: "+player2+"}, { p2: "+player1+" }, {turn: { $lt : 42 }} ] }]}";
+        //System.out.println(query);
+        List<Match> matchs = db.findByIndex(query,                
+        Match.class);
         System.out.println(matchs); 
         return matchs;
     }

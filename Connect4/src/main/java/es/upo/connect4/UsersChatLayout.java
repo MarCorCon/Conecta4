@@ -5,6 +5,8 @@
  */
 package es.upo.connect4;
 
+import com.vaadin.server.BrowserWindowOpener;
+import com.vaadin.server.ClientConnector;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Button;
@@ -27,8 +29,8 @@ public class UsersChatLayout {
 
     private static FileResource chatIconResource = new FileResource(new File(basepath
             + "/WEB-INF/icons/chat-icon.png"));
-    
-
+ private static FileResource gameIconResource = new FileResource(new File(basepath
+            + "/WEB-INF/icons/c4icon.png"));
     public static VerticalLayout getUsuariosAndChat() {
         List<User> listaUsuarios = MongoClientHelper.findAllUsers();
         VerticalLayout vl = new VerticalLayout();
@@ -39,19 +41,34 @@ public class UsersChatLayout {
         for (User u : listaUsuarios) {
             comboUsuarios.addItem(u.getUsername());
         }
+                BrowserWindowOpener chatOpener = new BrowserWindowOpener(PopUpChat.class);
+                BrowserWindowOpener gameOpener = new BrowserWindowOpener(PopUpGame.class);
+
         
+        comboUsuarios.addValueChangeListener(event ->
+                chatOpener.setParameter("u2", comboUsuarios.getValue().toString()));
+         comboUsuarios.addValueChangeListener(event ->
+                gameOpener.setParameter("u2", comboUsuarios.getValue().toString()));
+       
         Button newChatButton = new Button(chatIconResource);
-
-        newChatButton.addClickListener(new Button.ClickListener() {
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                VerticalLayout chatLayout = Chat.newChatWith("userID");
-                vl.addComponent(chatLayout);
-            }
-
-        });
+        chatOpener.setFeatures("height=300,width=300");
+        chatOpener.extend(newChatButton);
+        // Add a parameter
+        chatOpener.setParameter("u1", MyUI.user);
+                // Set a fragment
+        chatOpener.setUriFragment("myfragment");
         usersHl.addComponent(newChatButton);
+        
+                Button newGameButton = new Button(gameIconResource);
+                gameOpener.setFeatures("height=300,width=300");
+
+                gameOpener.extend(newGameButton);
+                gameOpener.setParameter("u1", MyUI.user);
+                 gameOpener.setUriFragment("myfragment");
+
+        usersHl.addComponent(newGameButton);
+
+
         vl.addComponent(usersHl);
         return vl;
     }
