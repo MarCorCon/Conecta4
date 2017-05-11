@@ -123,6 +123,41 @@ public class MongoClientHelper {
         Database db = getDB();
         db.remove(removedDoc);
     }
+    
+    public static List<Chat> findLastChat(String from, String to,String date) {
+        Database db = getDB(); 
+            String query = "{\"$and\": ["
+                        + "{\"from\": \""+from+"\"},"
+                        + "{\"to\": \""+to+"\"},"
+                        + "{\"sentAt\": { $gt : \""+date+"\" }}"
+                    + "]}";
+            
+            
+            System.out.println(query);
+            List<Chat> chat = db.findByIndex(query,Chat.class,new FindByIndexOptions()/*.sort(new IndexField("Movie_year", SortOrder.desc)).fields("Movie_name").fields("Movie_year")*/);
+            System.out.println(chat); 
+            return chat;
+    }
+    
+    public static List<Chat> findChats(String from, String to){
+            Database db = getDB(); 
+            String query = "{\"$or\":"
+                    + "["
+                    + "{\"$and\": ["
+                        + "{\"from\": \""+from+"\"},"
+                        + "{\"to\": \""+to+"\"}"
+                    + "] },"
+                    + "{\"$and\": ["
+                        + "{\"to\": \""+from+"\"},"
+                        + "{\"from\": \""+to+"\"}"
+                    + "] }"
+                    + "]}";
+            System.out.println(query);
+            List<Chat> chat = db.findByIndex(query,
+                    Chat.class, new FindByIndexOptions()/*.sort(new IndexField("Movie_year", SortOrder.desc)).fields("Movie_name").fields("Movie_year")*/);
+            System.out.println(chat); 
+            return chat;
+        }
 
 }
 /*
