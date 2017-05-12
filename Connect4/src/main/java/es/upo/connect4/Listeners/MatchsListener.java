@@ -7,6 +7,10 @@ package es.upo.connect4.Listeners;
 
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import es.upo.connect4.Database.Match;
+import es.upo.connect4.Database.MongoClientHelper;
+import es.upo.connect4.Tablero;
 
 /**
  *
