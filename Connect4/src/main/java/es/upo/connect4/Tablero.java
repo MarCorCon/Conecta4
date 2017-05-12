@@ -20,8 +20,6 @@ import es.upo.connect4.Database.User;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -96,6 +94,8 @@ public class Tablero {
             }
             match.setTurn(match.getTurn()+1);
             if(match.getTurn()== 42&& match.getWinner().equals("none")){
+                                    Notification.show("EMPATE");
+
                 User emp1 = MongoClientHelper.findUser(match.getP1());
                     emp1.setDraws(emp1.getDraws()+1);
                     MongoClientHelper.updateEntity(emp1);
@@ -106,14 +106,16 @@ public class Tablero {
             }
             
             MongoClientHelper.updateEntity(match);
-            match = MongoClientHelper.findOpenMatch(match.getP1(), match.getP2()).get(0);
-            updateTable();
-            updateArrows();
-
+            match = MongoClientHelper.getMatch(match.getId());
+         //   updateTable();
+           updateArrows();
+           
         }
 
         return inserted;
     }
+    
+  
     public Tablero(String me, String other){
         user = me;
         List <Match> matches = MongoClientHelper.findOpenMatch(user, other);
@@ -158,7 +160,8 @@ public class Tablero {
         return match;
     }
 
-    private void updateArrows() {
+    public void updateArrows() {
+        match = MongoClientHelper.getMatch(match.getId());
         arrows.removeAllComponents();
         FileResource arrowIconResource = new FileResource(new File(arrowStyles[match.getTurn() % 2]));
         for (int i = 0; i < 7; i++) {
@@ -193,7 +196,7 @@ public class Tablero {
         }
     }
 
-    private void updateCell(int pos, char colorCode){
+    public void updateCell(int pos, char colorCode){
         
         Image im = new Image();
             

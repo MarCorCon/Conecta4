@@ -14,6 +14,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
 
 
+
 /**
  * This UI is the application entry point. A UI may either represent a browser
  * window (or tab) or some part of a html page where a Vaadin application is
@@ -28,28 +29,24 @@ import com.vaadin.ui.UI;
 @Theme("mytheme")
 @Push
 public class MyUI extends UI {
-    
-    
-    
-    
+
     private VaadinSession vSession = VaadinSession.getCurrent();
-    
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {        
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         if (vSession.getAttribute("user") == null) {
-           
+
             Login lg = new Login();
             lg.muestraLogin(horizontalLayout);
+        
 
         } else {
             MainMenu mm = new MainMenu();
             mm.getMainMenu(horizontalLayout);
 
-   
+        }
 
-       }
-       // System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEYYYYYYYYYYYYYYYYYYYYY");
         setContent(horizontalLayout);
     }
 
