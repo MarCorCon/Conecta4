@@ -5,37 +5,47 @@
  */
 package es.upo.connect4.Database;
 
+import java.util.Objects;
+
 /**
  *
  * @author S
  */
-public class Chat implements EntityObject{
+public class Chat implements EntityObject, Comparable<Chat> {
     private String _id;
     private String _rev;
     private String type;
     private String from;
     private String to;
     private String text;
-    private String sentAt;
+    private Long sentAt;
+    private String type;
 
-    public Chat(String from,String to, String text,String sentAt) {
+    public Chat(String from,String to, String text,Long sentAt) {
+
         this.from = from;
         this.text = text;
         this.to = to;
         this.sentAt=sentAt;
-        this.type="chat";
+        type = "chat";
+
     }
     
     public String getTo() {
         return to;
     }
 
-    public void setSentAt(String sentAt) {
+    public void setSentAt(Long sentAt) {
         this.sentAt = sentAt;
     }
     
-    public String getSentAt() {
+    public Long getSentAt() {
         return sentAt;
+    }
+
+       public String getId() {
+        return _id;
+
     }
 
     public void setId(String _id) {
@@ -78,4 +88,37 @@ public class Chat implements EntityObject{
     public String toString(){
         return "From "+from+": "+text;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.sentAt);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Chat other = (Chat) obj;
+        if (!Objects.equals(this.sentAt, other.sentAt)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int compareTo(Chat other) {
+     
+        return this.getSentAt().compareTo(other.getSentAt()) * -1;
+    }
+
+    
 }

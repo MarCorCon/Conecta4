@@ -11,6 +11,8 @@ import com.cloudant.client.api.Database;
 import com.cloudant.client.api.Search;
 import com.cloudant.client.api.model.FindByIndexOptions;
 import com.cloudant.client.api.model.Index;
+import com.cloudant.client.api.model.IndexField;
+import com.cloudant.client.api.model.IndexField.SortOrder;
 import com.cloudant.client.api.model.Response;
 import com.google.gson.JsonObject;
 import es.upo.connect4.MyUI;
@@ -163,7 +165,7 @@ public class MongoClientHelper {
                 + "]}";
         System.out.println(query);
         List<Chat> chat = db.findByIndex(query,
-                Chat.class, new FindByIndexOptions()/*.sort(new IndexField("Movie_year", SortOrder.desc)).fields("Movie_name").fields("Movie_year")*/);
+                Chat.class, new FindByIndexOptions());/*.sort(new IndexField("Movie_year", SortOrder.desc)).fields("Movie_name").fields("Movie_year")*/
         System.out.println(chat);
         return chat;
     }

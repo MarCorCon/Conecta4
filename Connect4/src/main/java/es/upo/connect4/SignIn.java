@@ -27,15 +27,18 @@ public class SignIn {
     private  PasswordField passwordField = new PasswordField("Introduzca su contraseña");
     private  Button signInButton = new Button("Sign In");
 
-    public  void muestaSigIn(HorizontalLayout hl) {
+    public void muestaSigIn(HorizontalLayout hl) {
+
         signInButton.addClickListener(new Button.ClickListener() {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 realizarLogin(nameField.getValue(), passwordField.getValue());
                 if (vSession.getAttribute("user") != null) {
-                    new MainMenu().getMainMenu(hl);
-                }
+                    MainMenu mm = new MainMenu();
+                    mm.getMainMenu(hl);
+                    }
+
             }
         });
         VerticalLayout vl = new VerticalLayout();
