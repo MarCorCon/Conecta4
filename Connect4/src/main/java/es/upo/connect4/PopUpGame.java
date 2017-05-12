@@ -15,6 +15,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import es.upo.connect4.Database.Match;
+import es.upo.connect4.Listeners.MatchsListener;
 import es.upo.connect4.Database.MongoClientHelper;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,6 +27,7 @@ import java.util.logging.Logger;
  */
 
 public class PopUpGame extends UI {
+
        private  Tablero t;
        Match m;
        VerticalLayout v = new VerticalLayout();
@@ -51,6 +53,7 @@ public class PopUpGame extends UI {
                     Notification.show("Turno de " + m.getP2(), Notification.Type.TRAY_NOTIFICATION);
                 }else{
            Notification.show("Turno de " + m.getP1(), Notification.Type.TRAY_NOTIFICATION);
+
 
                 }
                 if(m.getTurn()<42){

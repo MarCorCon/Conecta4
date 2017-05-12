@@ -17,11 +17,11 @@ import com.vaadin.ui.VerticalLayout;
 import es.upo.connect4.Database.MongoClientHelper;
 import es.upo.connect4.Database.User;
 import es.upo.connect4.Database.Chat;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+
 import java.util.List;
 
 /**
@@ -38,11 +38,13 @@ public class PopUpChat extends UI{
                        Notification.show("Error: usuario no válido", Notification.Type.ERROR_MESSAGE);
 
         }
+
         VerticalLayout chatLayout = new VerticalLayout();
         //chatLayout.setImmediate(true);
         VerticalLayout sendLayout = new VerticalLayout();
         TextField textToSend = new TextField("");          
         Button send = new Button("Send");
+
         send.addClickListener(new Button.ClickListener() {
 
             @Override
@@ -66,6 +68,7 @@ public class PopUpChat extends UI{
              
             msgsLayout.addComponent(new Label(ch.getFrom() +":                                  "+ch.getText()));
             msgsLayout.addComponent(new Label("*   *   *   *   *   *   *   *   *   *   *"));
+
         }
          sendLayout.addComponent(textToSend);
         sendLayout.addComponent(send);
@@ -92,6 +95,7 @@ public class PopUpChat extends UI{
 
        
         
+
                
     }   
 
