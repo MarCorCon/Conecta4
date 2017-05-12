@@ -12,29 +12,9 @@ import java.util.logging.Logger;
  *
  * @author Marco
  */
-public class MatchPush extends Thread{
-//    @Override
-//        public void run ()
-//        {
-//            
-//            try {
-//                Thread.sleep( 1000 );
-//                
-//                access( new Runnable()
-//                {
-//                    @Override
-//                    public void run ()
-//                    {
-//                     if(true){
-//                      //   insertPiece(lastPos);
-//                     }     
-//                    }
-//                } );
-//            } catch (InterruptedException ex) {
-//                Logger.getLogger(MyUI.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-
-        
+public class MatchPush implements Runnable {
+    @Override
+    public void run() {
+        //Code
     }
-
+}
