@@ -46,7 +46,7 @@ public class UsersChatLayout implements Serializable{
         vl.setWidth("20%");
         User user = (User) vSession.getAttribute("user");
         HorizontalLayout usersHl = new HorizontalLayout();
-        ComboBox comboUsuarios = new ComboBox("Usuarios");
+        ComboBox comboUsuarios = new ComboBox(user.getUsername());
         usersHl.addComponent(comboUsuarios);
         for (User u : listaUsuarios) {
             if(!u.getUsername().equals(user.getUsername()))
