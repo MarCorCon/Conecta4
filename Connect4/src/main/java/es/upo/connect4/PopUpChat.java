@@ -12,6 +12,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import es.upo.connect4.Database.MongoClientHelper;
 import es.upo.connect4.Database.User;
+import es.upo.connect4.Database.Chat;
 import es.upo.connect4.Listeners.ChatsListener;
 import java.util.List;
 
@@ -20,21 +21,31 @@ import java.util.List;
  * @author Marco
  */
 public class PopUpChat extends UI{
-     protected void init(VaadinRequest request) {  
-         
+     protected void init(VaadinRequest request) { 
+        User user = (User) VaadinSession.getCurrent().getAttribute("user");
+        String me = user.getUsername(); 
+        String other = request.getParameter("u2");
         VerticalLayout chatLayout = new VerticalLayout();
         VerticalLayout sendLayout = new VerticalLayout();
-        
+        TextField textToSend = new TextField("");          
+        Button send = new Button("Send");
+        /*
+        PONER BIEN EL CLICK LISTENER CON LO DE DENTRO y agregar boton al layout
+        send.addClickListener....{
+             String text = textToSend.getValue();
+             String time = new Timestamp(System.currentTimeMillis()).toString();
+             MongoClientHelper.createEntity(new Chat(me,other,text,time));
+        }*/
         chatLayout.addComponent(sendLayout);
-        User user = (User) VaadinSession.getCurrent().getAttribute("user");
-        Label chatTitle = new Label("Chat con " + request.getParameter("u2"));
+        
+        Label chatTitle = new Label("Chat con " + other);
         chatLayout.addComponent(chatTitle);
-        List<es.upo.connect4.Database.Chat> chats = MongoClientHelper.findChats(user.getUsername(), request.getParameter("u2"));
+        List<es.upo.connect4.Database.Chat> chats = MongoClientHelper.findChats(me, other);
         for(es.upo.connect4.Database.Chat ch : chats){
             chatLayout.addComponent(new Label(ch.getText()));
         }
         setContent(chatLayout);
-        new ChatsListener(this,chatLayout,user.getUsername(),request.getParameter("u2")).doWork();
+        new ChatsListener(this,chatLayout,me,other).doWork();
                
     }   
 
