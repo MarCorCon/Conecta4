@@ -12,6 +12,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import es.upo.connect4.Database.Match;
+import es.upo.connect4.Listeners.MatchsListener;
 import es.upo.connect4.Database.MongoClientHelper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
  * @author Marco
  */
 
-public class PopUpGame extends UI implements Runnable{
+public class PopUpGame extends UI /*implements Runnable*/{
        private  Tablero t;
        Match m;
        VerticalLayout v = new VerticalLayout();
@@ -36,7 +37,8 @@ public class PopUpGame extends UI implements Runnable{
             v.addComponent(t.newTablero()); 
             v.setImmediate(true);
             this.setContent(  v);
-            (new Thread(this)).start();
+            //(new Thread(this)).start();
+            new MatchsListener(this,t,m,v).doWork();
 
 
 
@@ -44,7 +46,7 @@ public class PopUpGame extends UI implements Runnable{
     }
 
          
-     @Override
+   /*  @Override
     public void run() {
         while(m.getTurn()<42){
             try {
@@ -62,6 +64,6 @@ public class PopUpGame extends UI implements Runnable{
             
             }
         }
-    }
+    }*/
 
   }
