@@ -45,7 +45,7 @@ public class PopUpChat extends UI{
             chatLayout.addComponent(new Label(ch.getText()));
         }
         setContent(chatLayout);
-        new ChatsListener(this,chatLayout,me,other).run();
+        new ChatsListener(this,chatLayout,me,other).start();
                
     }   
 
