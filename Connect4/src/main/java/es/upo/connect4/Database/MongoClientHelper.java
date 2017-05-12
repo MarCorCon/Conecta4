@@ -53,18 +53,18 @@ public class MongoClientHelper {
 
     public static User findUser(String username, String password) {
         Database db = getDB();
-        User us = db.findByIndex("{\"username\":\"" + username + "\",\"password\":\"" + password + "\", \"type\":\"user\"}",
-                User.class).get(0);
+        List<User> us = db.findByIndex("{\"username\":\"" + username + "\",\"password\":\"" + password + "\", \"type\":\"user\"}",
+                User.class);
         // System.out.println(us);        
-        return us;
+        return us!=null&&!us.isEmpty()?us.get(0):null;
     }
 
     public static User findUser(String username) {
         Database db = getDB();
-        User us = db.findByIndex("{\"username\":\"" + username + "\", \"type\":\"user\"}",
-                User.class).get(0);
+        List<User> us = db.findByIndex("{\"username\":\"" + username + "\", \"type\":\"user\"}",
+                User.class);
         //   System.out.println(us);        
-        return us;
+        return us!=null&&!us.isEmpty()?us.get(0):null;
     }
 
     public static List<Match> findUserMatchs(String username) {
@@ -103,6 +103,40 @@ public class MongoClientHelper {
         return matches;
     }
 
+    public static List<String> findMyOpenMatches(String player) {
+        Database db = getDB();
+//        String query = "{ $or: [ "
+//                + "{$and : [{ p1: "+player1+"}, { p2: "+player2+" }, {turn: { $lt : 42 }}, {$type: \"match\"} ] },"
+//                + "{$and : [{ p1: "+player2+"}, { p2: "+player1+" }, {turn: { $lt : 42 }}, {$type: \"match\"} ] }]}";
+        //System.out.println(query);
+        String query = "{\"$or\":"
+                + "["
+                + "{\"p1\": \"" + player + "\"},"
+                + "{\"p2\": \"" + player + "\"}"
+                + "]}";
+        List<Match> matches = db.findByIndex(query,
+                Match.class);
+        List<String> otherPlayers = new ArrayList<>();
+
+        for (Match m : matches) {
+            if (m.getTurn() < 42) {
+                String other;
+                if (m.getP1().equals(player)) {
+                    other = m.getP2();
+                } else {
+                    other = m.getP1();
+                }
+                String foo = null;
+                if(other != foo && !player.equals(other)){
+                    otherPlayers.add(other);
+                }
+            }
+        }
+
+        System.out.println(otherPlayers.toString()); 
+        return otherPlayers;
+    }
+
     public static List<User> findAllUsers() {
 
         Database db = getDB();
@@ -115,7 +149,7 @@ public class MongoClientHelper {
         return users;
     }
 
-    public static void createEntity(EntityObject  newDoc) {
+    public static void createEntity(EntityObject newDoc) {
         Database db = getDB();
         System.out.println("KE DISEEEEEEHHHHHH COLEGAAAAAAASSSSOOOOOOOOOOOOOOOO*-*-*-*-*-*---*-*-*-*-*-*-**-*-*");
         db.save(newDoc);
@@ -124,9 +158,10 @@ public class MongoClientHelper {
     public static void updateEntity(EntityObject updatedDoc) {
         Database db = getDB();
         db.update(updatedDoc);
-        
+
     }
-    public static Match getMatch(String id){
+
+    public static Match getMatch(String id) {
         Database db = getDB();
         return db.find(Match.class, id);
     }

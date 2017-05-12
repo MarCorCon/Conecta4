@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
@@ -28,7 +29,7 @@ public class SignIn {
     private  Button signInButton = new Button("Sign In");
 
     public void muestaSigIn(HorizontalLayout hl) {
-
+        hl.removeAllComponents();
         signInButton.addClickListener(new Button.ClickListener() {
 
             @Override
@@ -42,6 +43,7 @@ public class SignIn {
             }
         });
         VerticalLayout vl = new VerticalLayout();
+        vl.addComponent(new Label("SIGN IN"));
         vl.addComponent(nameField);
         vl.addComponent(passwordField);
         vl.addComponent(signInButton);
