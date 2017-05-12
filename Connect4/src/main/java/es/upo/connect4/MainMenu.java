@@ -28,6 +28,7 @@ public class MainMenu implements Serializable{
 
     public void getMainMenu(HorizontalLayout horizontalLayout){
                         horizontalLayout.removeAllComponents();
+                        getLogoutButton(horizontalLayout);
 
         User u = (User) vSession.getAttribute("user");
         UsersChatLayout ucl = new UsersChatLayout();
@@ -49,6 +50,23 @@ public class MainMenu implements Serializable{
            clasificacion.addComponent(playerLabel);
            clasificacion.addComponent(new Label("________________________________________________________________________________________"));
         }
+       usersChatLayout.addComponent(openMatchesLayout);
+       horizontalLayout.addComponent(usersChatLayout);       
+    }
+    
+    public void getLogoutButton(HorizontalLayout horizontalLayout){
+        Button logout = new Button("Log out");
+        logout.addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                if (vSession.getAttribute("user") != null) {
+                   vSession.setAttribute("user", null);
+                }
+                new Login().muestraLogin(horizontalLayout);
+            }
+        });
+        horizontalLayout.addComponent(logout);
         horizontalLayout.addComponent(clasificacion);
         horizontalLayout.addComponent(usersChatLayout);
         
