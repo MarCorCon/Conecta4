@@ -37,8 +37,8 @@ public class MyUI extends UI {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         if (vSession.getAttribute("user") == null) {
 
-            muestraLogin(horizontalLayout);
-            muestaSigIn(horizontalLayout);
+            Login lg = new Login();
+            lg.muestraLogin(horizontalLayout);
         
 
         } else {
