@@ -28,8 +28,10 @@ import com.vaadin.ui.UI;
 @Theme("mytheme")
 @Push
 public class MyUI extends UI {
-
-
+    
+    
+    
+    
     private VaadinSession vSession = VaadinSession.getCurrent();
     
     @Override
