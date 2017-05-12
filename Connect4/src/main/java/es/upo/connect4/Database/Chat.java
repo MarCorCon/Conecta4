@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Chat implements EntityObject, Comparable<Chat> {
     private String _id;
     private String _rev;
+    private String type;
     private String from;
     private String to;
     private String text;
@@ -21,11 +22,13 @@ public class Chat implements EntityObject, Comparable<Chat> {
     private String type;
 
     public Chat(String from,String to, String text,Long sentAt) {
+
         this.from = from;
         this.text = text;
         this.to = to;
         this.sentAt=sentAt;
         type = "chat";
+
     }
     
     public String getTo() {
@@ -42,11 +45,18 @@ public class Chat implements EntityObject, Comparable<Chat> {
 
        public String getId() {
         return _id;
+
     }
 
     public void setId(String _id) {
         this._id = _id;
     }
+
+    public String getId() {
+        return _id;
+    }
+
+    
 
     public String getRev() {
         return _rev;

@@ -28,6 +28,7 @@ public class SignIn {
     private  Button signInButton = new Button("Sign In");
 
     public void muestaSigIn(HorizontalLayout hl) {
+
         signInButton.addClickListener(new Button.ClickListener() {
 
             @Override
@@ -37,6 +38,7 @@ public class SignIn {
                     MainMenu mm = new MainMenu();
                     mm.getMainMenu(hl);
                     }
+
             }
         });
         VerticalLayout vl = new VerticalLayout();
