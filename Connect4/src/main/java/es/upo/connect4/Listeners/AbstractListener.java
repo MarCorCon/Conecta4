@@ -32,14 +32,14 @@ public abstract class AbstractListener extends Thread{
                 while(true){
                     Thread.sleep( 1000 );
                     time = new Timestamp(System.currentTimeMillis()).toString();
-                    ui.access( new Runnable()
+                    /*ui.access( new Runnable()
                     {
                         @Override
                         public void run ()
-                        {
+                        {*/
                             doWork();
-                        }
-                    } );
+                        /*}
+                    } );*/
                 }
                 
             } catch (InterruptedException ex) {
