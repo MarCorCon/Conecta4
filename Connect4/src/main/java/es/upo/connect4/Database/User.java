@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author S
  */
-public class User implements EntityObject {
+public class User implements EntityObject, Comparable<User>{
 
     private String _id;
     private String _rev;
@@ -111,6 +111,42 @@ public class User implements EntityObject {
 
     public String toString() {
         return username;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        
+          Integer p = 3* getWon() + getDraws();
+        Integer pOtro = 3 * other.getWon() + other.getDraws();
+        if(p==pOtro){
+        return true;
+        }else{
+            return false;
+        }
+        
+    }
+
+    @Override
+    public int compareTo(User o) {
+        Integer p = 3* getWon() + getDraws();
+        Integer pOtro = 3 * o.getWon() + o.getDraws();
+        return pOtro.compareTo(p);
     }
 
 }

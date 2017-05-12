@@ -8,6 +8,7 @@ package es.upo.connect4;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
@@ -26,9 +27,12 @@ public class Login implements Serializable{
     private  TextField nameField = new TextField("Introduzca su nombre de usuario");
     private  PasswordField passwordField = new PasswordField("Introduzca su contraseña");
     private  Button loginButton = new Button("login");
+    private  Button signButton = new Button("Sign in");
 
     public void muestraLogin(HorizontalLayout hl) {
+        
         hl.removeAllComponents();
+        
         loginButton.addClickListener(new Button.ClickListener() {
 
             @Override
@@ -40,10 +44,20 @@ public class Login implements Serializable{
                 }
             }
         });
+        
+        signButton.addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent event) {                
+                new SignIn().muestaSigIn(hl);
+            }
+        });        
+        
         VerticalLayout vl = new VerticalLayout();
+        vl.addComponent(new Label("LOGIN"));
         vl.addComponent(nameField);
         vl.addComponent(passwordField);
-        vl.addComponent(loginButton);
+        vl.addComponents(loginButton,signButton);
         hl.addComponent(vl);
 
     }
