@@ -66,10 +66,7 @@ public class MainMenu implements Serializable{
                 new Login().muestraLogin(horizontalLayout);
             }
         });
-        horizontalLayout.addComponent(logout);
-        horizontalLayout.addComponent(clasificacion);
-        horizontalLayout.addComponent(usersChatLayout);
-        
+        horizontalLayout.addComponent(logout);        
     }
     
    
