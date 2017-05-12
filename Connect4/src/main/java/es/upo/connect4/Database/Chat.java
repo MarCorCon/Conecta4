@@ -12,16 +12,18 @@ package es.upo.connect4.Database;
 public class Chat implements EntityObject{
     private String _id;
     private String _rev;
+    private String type;
     private String from;
     private String to;
     private String text;
     private String sentAt;
 
-    public Chat(String from,String to, String text,String sentAt,) {
+    public Chat(String from,String to, String text,String sentAt) {
         this.from = from;
         this.text = text;
         this.to = to;
         this.sentAt=sentAt;
+        this.type="chat";
     }
     
     public String getTo() {
@@ -44,9 +46,7 @@ public class Chat implements EntityObject{
         return _id;
     }
 
-    public void setId(String _id) {
-        this._id = _id;
-    }
+    
 
     public String getRev() {
         return _rev;

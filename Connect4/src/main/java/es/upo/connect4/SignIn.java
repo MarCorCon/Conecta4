@@ -22,19 +22,19 @@ import es.upo.connect4.Database.User;
  */
 public class SignIn {
 
-    private static VaadinSession vSession = VaadinSession.getCurrent();
-    private static TextField nameField = new TextField("Introduzca su nombre de usuario");
-    private static PasswordField passwordField = new PasswordField("Introduzca su contraseña");
-    private static Button signInButton = new Button("Sign In");
+    private  VaadinSession vSession = VaadinSession.getCurrent();
+    private  TextField nameField = new TextField("Introduzca su nombre de usuario");
+    private  PasswordField passwordField = new PasswordField("Introduzca su contraseña");
+    private  Button signInButton = new Button("Sign In");
 
-    public static void muestaSigIn(HorizontalLayout hl) {
+    public  void muestaSigIn(HorizontalLayout hl) {
         signInButton.addClickListener(new Button.ClickListener() {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 realizarLogin(nameField.getValue(), passwordField.getValue());
                 if (vSession.getAttribute("user") != null) {
-                    MainMenu.getMainMenu(hl);
+                    new MainMenu().getMainMenu(hl);
                 }
             }
         });
@@ -46,7 +46,7 @@ public class SignIn {
 
     }
 
-    private static void realizarLogin(String username, String password) {
+    private void realizarLogin(String username, String password) {
         User u = new User(username, password);
        /* JsonObject json = new JsonObject();
         EntityObject jlol=new 

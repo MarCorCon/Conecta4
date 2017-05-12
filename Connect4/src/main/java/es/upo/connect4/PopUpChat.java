@@ -7,13 +7,16 @@ package es.upo.connect4;
 
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import es.upo.connect4.Database.MongoClientHelper;
 import es.upo.connect4.Database.User;
 import es.upo.connect4.Database.Chat;
 import es.upo.connect4.Listeners.ChatsListener;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -29,13 +32,22 @@ public class PopUpChat extends UI{
         VerticalLayout sendLayout = new VerticalLayout();
         TextField textToSend = new TextField("");          
         Button send = new Button("Send");
-        /*
-        PONER BIEN EL CLICK LISTENER CON LO DE DENTRO y agregar boton al layout
-        send.addClickListener....{
+        
+      //PONER BIEN EL CLICK LISTENER CON LO DE DENTRO y agregar boton al layout
+      /*  send.addClickListener....{
              String text = textToSend.getValue();
              String time = new Timestamp(System.currentTimeMillis()).toString();
              MongoClientHelper.createEntity(new Chat(me,other,text,time));
         }*/
+        send.addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+               String text = textToSend.getValue();
+             String time = new Timestamp(System.currentTimeMillis()).toString();
+             MongoClientHelper.createEntity(new Chat(me,other,text,time));
+            }
+        });
         chatLayout.addComponent(sendLayout);
         
         Label chatTitle = new Label("Chat con " + other);
