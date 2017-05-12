@@ -5,19 +5,10 @@
  */
 package es.upo.connect4;
 
-import com.vaadin.server.FileResource;
-import com.vaadin.server.VaadinService;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.GridLayout;
+
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
-import es.upo.connect4.Database.MongoClientHelper;
-import es.upo.connect4.Database.User;
-import java.io.File;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  *

@@ -5,7 +5,6 @@
  */
 package es.upo.connect4;
 
-import com.vaadin.guice.annotation.UIScope;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Label;
@@ -20,7 +19,6 @@ import java.util.List;
  *
  * @author Marco
  */
-@UIScope
 public class PopUpChat extends UI{
      protected void init(VaadinRequest request) {  
          

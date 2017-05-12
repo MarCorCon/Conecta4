@@ -86,13 +86,14 @@ public class MongoClientHelper {
                        + "{\"p2\": \""+player2+"\"}"
                    + "] },"
                    + "{\"$and\": ["
-                       + "{\"p2\": \""+player2+"\"},"
-                       + "{\"p1\": \""+player1+"\"}"
+                       + "{\"p2\": \""+player1+"\"},"
+                       + "{\"p1\": \""+player2+"\"}"
                    + "] }"
                    + "]}";
         List<Match> matches = db.findByIndex(query,                
         Match.class);
-        System.out.println(matches); 
+        
+        //System.out.println(matches); 
         return matches;
     }
         
