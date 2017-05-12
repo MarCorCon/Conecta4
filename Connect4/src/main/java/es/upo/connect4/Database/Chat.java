@@ -13,11 +13,31 @@ public class Chat implements EntityObject{
     private String _id;
     private String _rev;
     private String from;
-    private String text; 
+    private String to;
+    private String text;
+    private String sentAt;
 
-    public Chat(String from, String text) {
+    public Chat(String from,String to, String text,String sentAt,) {
         this.from = from;
         this.text = text;
+        this.to = to;
+        this.sentAt=sentAt;
+    }
+    
+    public String getTo() {
+        return to;
+    }
+
+    public void setSentAt(String sentAt) {
+        this.sentAt = sentAt;
+    }
+    
+    public String getSentAt() {
+        return sentAt;
+    }
+
+    public void setId(String _id) {
+        this._id = _id;
     }
 
     public String getId() {
