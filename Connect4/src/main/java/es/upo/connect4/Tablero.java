@@ -20,6 +20,8 @@ import es.upo.connect4.Database.User;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -136,7 +138,6 @@ public class Tablero {
                 userInt = 0;
             }
             myColor = colors.charAt(userInt);
-
     }
     
     public HorizontalLayout newTablero(){
@@ -151,6 +152,10 @@ public class Tablero {
         vl.addComponent(winnerLabel);
         hl.addComponent(vl);
         return hl;
+    }
+
+    public Match getMatch() {
+        return match;
     }
 
     private void updateArrows() {
@@ -178,6 +183,9 @@ public class Tablero {
 
     }
 
+    
+     
+  
     private void updateTable() {
         //grid.removeAllComponents();
         for (int i = 0; i < 42; i++) {
