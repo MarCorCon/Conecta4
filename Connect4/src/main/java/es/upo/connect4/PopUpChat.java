@@ -52,6 +52,8 @@ public class PopUpChat extends UI{
         
         Label chatTitle = new Label("Chat con " + other);
         chatLayout.addComponent(chatTitle);
+        chatLayout.addComponent(textToSend);
+        chatLayout.addComponent(send);
         List<es.upo.connect4.Database.Chat> chats = MongoClientHelper.findChats(me, other);
         for(es.upo.connect4.Database.Chat ch : chats){
             chatLayout.addComponent(new Label(ch.getText()));
