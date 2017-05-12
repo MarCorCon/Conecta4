@@ -19,7 +19,6 @@ public class Chat implements EntityObject, Comparable<Chat> {
     private String to;
     private String text;
     private Long sentAt;
-    private String type;
 
     public Chat(String from,String to, String text,Long sentAt) {
 
@@ -50,10 +49,6 @@ public class Chat implements EntityObject, Comparable<Chat> {
 
     public void setId(String _id) {
         this._id = _id;
-    }
-
-    public String getId() {
-        return _id;
     }
 
     

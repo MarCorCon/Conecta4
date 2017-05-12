@@ -15,7 +15,6 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import es.upo.connect4.Database.Match;
-import es.upo.connect4.Listeners.MatchsListener;
 import es.upo.connect4.Database.MongoClientHelper;
 import java.util.List;
 import java.util.logging.Level;
