@@ -38,7 +38,7 @@ public class PopUpGame extends UI /*implements Runnable*/{
             v.setImmediate(true);
             this.setContent(  v);
             //(new Thread(this)).start();
-            new MatchsListener(this,t,m,v).doWork();
+            new MatchsListener(this,t,m,v).run();
 
 
 
