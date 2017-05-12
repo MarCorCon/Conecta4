@@ -17,7 +17,7 @@ public class MatchsListener extends AbstractListener{
     Match m;
     VerticalLayout v;
     
-    public MatchsListener(UI ui,String otherUser,Tablero t, Match m, VerticalLayout v){
+    public MatchsListener(UI ui,Tablero t, Match m, VerticalLayout v){
         this.ui=ui;
         this.t=t;
         this.m=m;
