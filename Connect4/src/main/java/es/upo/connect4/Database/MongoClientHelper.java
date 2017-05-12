@@ -53,18 +53,18 @@ public class MongoClientHelper {
 
     public static User findUser(String username, String password) {
         Database db = getDB();
-        User us = db.findByIndex("{\"username\":\"" + username + "\",\"password\":\"" + password + "\", \"type\":\"user\"}",
-                User.class).get(0);
+        List<User> us = db.findByIndex("{\"username\":\"" + username + "\",\"password\":\"" + password + "\", \"type\":\"user\"}",
+                User.class);
         // System.out.println(us);        
-        return us;
+        return us!=null&&!us.isEmpty()?us.get(0):null;
     }
 
     public static User findUser(String username) {
         Database db = getDB();
-        User us = db.findByIndex("{\"username\":\"" + username + "\", \"type\":\"user\"}",
-                User.class).get(0);
+        List<User> us = db.findByIndex("{\"username\":\"" + username + "\", \"type\":\"user\"}",
+                User.class);
         //   System.out.println(us);        
-        return us;
+        return us!=null&&!us.isEmpty()?us.get(0):null;
     }
 
     public static List<Match> findUserMatchs(String username) {
