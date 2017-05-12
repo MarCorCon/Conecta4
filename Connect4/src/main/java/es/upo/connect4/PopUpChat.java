@@ -10,6 +10,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -33,6 +34,10 @@ public class PopUpChat extends UI{
         User user = (User) VaadinSession.getCurrent().getAttribute("user");
         final String me = user.getUsername(); 
         final String other = request.getParameter("u2");
+        if(other.equals(null)){
+                       Notification.show("Error: usuario no válido", Notification.Type.ERROR_MESSAGE);
+
+        }
         VerticalLayout chatLayout = new VerticalLayout();
         //chatLayout.setImmediate(true);
         VerticalLayout sendLayout = new VerticalLayout();

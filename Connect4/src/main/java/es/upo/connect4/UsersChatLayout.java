@@ -38,10 +38,12 @@ public class UsersChatLayout implements Serializable{
         List<User> listaUsuarios = MongoClientHelper.findAllUsers();
         VerticalLayout vl = new VerticalLayout();
         vl.setWidth("20%");
+        User user = (User) vSession.getAttribute("user");
         HorizontalLayout usersHl = new HorizontalLayout();
         ComboBox comboUsuarios = new ComboBox("Usuarios");
         usersHl.addComponent(comboUsuarios);
         for (User u : listaUsuarios) {
+            if(!u.getUsername().equals(user.getUsername()))
             comboUsuarios.addItem(u.getUsername());
         }
         BrowserWindowOpener chatOpener = new BrowserWindowOpener(PopUpChat.class);
@@ -58,7 +60,7 @@ public class UsersChatLayout implements Serializable{
         // Add a parameter
         chatOpener.setParameter("u1", ((User) vSession.getAttribute("user")).getUsername());
         // Set a fragment
-        chatOpener.setUriFragment("myfragment");
+        chatOpener.setUriFragment("connect4chat");
         usersHl.addComponent(newChatButton);
 
         Button newGameButton = new Button(gameIconResource);
@@ -66,7 +68,7 @@ public class UsersChatLayout implements Serializable{
 
         gameOpener.extend(newGameButton);
         gameOpener.setParameter("u1", ((User) vSession.getAttribute("user")).getUsername());
-        gameOpener.setUriFragment("myfragment");
+        gameOpener.setUriFragment("connect4match");
 
         usersHl.addComponent(newGameButton);
 
