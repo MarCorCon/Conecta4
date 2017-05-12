@@ -50,7 +50,9 @@ public class MainMenu implements Serializable{
            clasificacion.addComponent(playerLabel);
            clasificacion.addComponent(new Label("________________________________________________________________________________________"));
         }
-       horizontalLayout.addComponent(usersChatLayout);       
+       horizontalLayout.addComponent(usersChatLayout);   
+               horizontalLayout.addComponent(clasificacion);       
+
     }
     
     public void getLogoutButton(HorizontalLayout horizontalLayout){
