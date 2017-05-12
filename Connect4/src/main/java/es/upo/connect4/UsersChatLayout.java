@@ -6,20 +6,17 @@
 package es.upo.connect4;
 
 import com.vaadin.server.BrowserWindowOpener;
-import com.vaadin.server.ClientConnector;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import es.upo.connect4.Database.MongoClientHelper;
 import es.upo.connect4.Database.User;
 import java.io.File;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.List;
 
 /**

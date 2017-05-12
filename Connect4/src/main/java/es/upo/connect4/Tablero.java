@@ -5,14 +5,8 @@
  */
 package es.upo.connect4;
 
-import com.vaadin.annotations.Theme;
 import com.vaadin.server.FileResource;
-import com.vaadin.server.Sizeable;
-import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.server.VaadinService;
-import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
@@ -31,24 +25,24 @@ import java.util.List;
  *
  * @author Marco
  */
-@Theme("mytheme")
+//@Theme("mytheme")
 public class Tablero {
-        String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+     private   String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
     private String user; 
-    HorizontalLayout arrows = new HorizontalLayout();
+    private HorizontalLayout arrows = new HorizontalLayout();
     private Match match;
     private int userInt;
     private GridLayout grid = new GridLayout(7, 6);
-    FileResource emptyIconResource = new FileResource(new File(basepath
+    private FileResource emptyIconResource = new FileResource(new File(basepath
             + "/WEB-INF/icons/empty.png"));
-    FileResource redIconResource = new FileResource(new File(basepath
+    private FileResource redIconResource = new FileResource(new File(basepath
             + "/WEB-INF/icons/red.png"));
-    FileResource yellowIconResource = new FileResource(new File(basepath
+    private FileResource yellowIconResource = new FileResource(new File(basepath
             + "/WEB-INF/icons/yellow.png"));
-    String colors = "rye";
-    String[] arrowStyles = {basepath + "/WEB-INF/icons/red_arrow_down.png", basepath + "/WEB-INF/icons/yellow_arrow_down.png"};
+    private String colors = "rye";
+    private String[] arrowStyles = {basepath + "/WEB-INF/icons/red_arrow_down.png", basepath + "/WEB-INF/icons/yellow_arrow_down.png"};
     // gestión temporánea de turnos
-    char myColor;
+    private char myColor;
     Label winnerLabel = new Label();
     
     private boolean insertPiece(int column) {
@@ -77,7 +71,10 @@ public class Tablero {
             List<Integer> onLine;
             onLine = checkWin(pos * 7 + column);
             if (onLine.size() == 4) {
-                if(match.getTurn()%2== 0){
+                if(match.getTurn()%2 == 0){
+                    User ganador = MongoClientHelper.findUser(match.getP2());
+                    ganador.setWon(ganador.getWon()+1);
+                    MongoClientHelper.updateEntity(ganador);
                     winnerLabel.setCaption("GANA " + match.getP2());
                     Notification.show("GANA " + match.getP2(), Notification.Type.ERROR_MESSAGE);
                     match.setWinner(match.getP2());
@@ -86,36 +83,51 @@ public class Tablero {
                 }else{
                     winnerLabel.setCaption("GANA" +match.getP1());
                     Notification.show("GANA " + match.getP1(), Notification.Type.ERROR_MESSAGE);
+                    match.setWinner(match.getP1());
+                    User ganador = MongoClientHelper.findUser(match.getP1());
+                    ganador.setWon(ganador.getWon()+1);
+                    MongoClientHelper.updateEntity(ganador);
                     match.setTurn(42);
 
                     
                 }
             }
             match.setTurn(match.getTurn()+1);
+            if(match.getTurn()== 42&& match.getWinner().equals("none")){
+                User emp1 = MongoClientHelper.findUser(match.getP1());
+                    emp1.setDraws(emp1.getDraws()+1);
+                    MongoClientHelper.updateEntity(emp1);
+                    
+                      User emp2 = MongoClientHelper.findUser(match.getP2());
+                    emp2.setDraws(emp2.getDraws()+1);
+                    MongoClientHelper.updateEntity(emp2);
+            }
+            
             MongoClientHelper.updateEntity(match);
+            match = MongoClientHelper.findOpenMatch(match.getP1(), match.getP2()).get(0);
+            updateTable();
             updateArrows();
 
         }
 
         return inserted;
     }
-    public Tablero(String player1, String player2){
-        user = player1;
-        List <Match> matches = MongoClientHelper.findOpenMatch(user, player2);
-        if(matches.isEmpty()){
-            Match thisMatch = new Match(user, player2);
+    public Tablero(String me, String other){
+        user = me;
+        List <Match> matches = MongoClientHelper.findOpenMatch(user, other);
+       
+        if(matches.size() == 0){
+
+
+            Match thisMatch = new Match(user, other);
             EntityObject matchEntity = thisMatch;
             MongoClientHelper.createEntity(matchEntity);
-            match = MongoClientHelper.findOpenMatch(user, player2).get(0);
-//                        System.out.println(match.toString());
-//                        System.out.println("nuevo");
-
+            match = MongoClientHelper.findOpenMatch(user, other).get(0);
            
            
         }else{
             match = matches.get(0);
-//            System.out.println(match.toString());
-//            System.out.println("Ya estaba");
+           System.out.println("Ya estaba");
             
         }
          if(match.getP1().equals(user)){
@@ -124,14 +136,12 @@ public class Tablero {
                 userInt = 0;
             }
             myColor = colors.charAt(userInt);
-         
-        
-        
+
     }
+    
     public HorizontalLayout newTablero(){
                 
-                       
-        HorizontalLayout hl = new HorizontalLayout();
+                               HorizontalLayout hl = new HorizontalLayout();
 // These buttons take the minimum size.
         updateTable();
         updateArrows();
@@ -148,19 +158,21 @@ public class Tablero {
         FileResource arrowIconResource = new FileResource(new File(arrowStyles[match.getTurn() % 2]));
         for (int i = 0; i < 7; i++) {
             final int bi = i;
-            Button b = new Button(arrowIconResource);
+           //Button b = new Button(arrowIconResource);
+           Image b = new Image();
+           b.setSource(arrowIconResource);
             b.setHeight("100px");
             b.setWidth("100px");
-            b.addClickListener(new Button.ClickListener() {
-
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    if (match.getTurn() < 42 && match.getTurn()%2 == userInt) {
+            b.addClickListener((event) -> {
+               if (match.getTurn() < 42 && match.getTurn()%2 == userInt) {
                         insertPiece(bi);
                     }
-                }
-
             });
+            
+           
+
+          
+            
             arrows.addComponent(b);
         }
 

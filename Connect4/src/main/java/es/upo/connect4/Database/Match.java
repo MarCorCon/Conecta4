@@ -48,16 +48,7 @@ public class Match implements EntityObject{
         this.status = "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
     }
 
-    public Match(String winner, String type, String status, int turn, String p1, String p2) {
-        this.winner = winner;
-        this.type = type;
-        this.status = status;
-        this.turn = turn;
-        this.p1 = p1;
-        this.p2 = p2;
-    }
-
-    public Match(String _id, String _rev, String winner, String type, String status, int turn, String p1, String p2) {
+       public Match(String _id, String _rev, String winner, String type, String status, int turn, String p1, String p2) {
         this._id = _id;
         this._rev = _rev;
         this.winner = winner;
