@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.event.UIEvents;
 
 
 import com.vaadin.server.VaadinRequest;
@@ -33,7 +34,9 @@ public class MyUI extends UI {
     private VaadinSession vSession = VaadinSession.getCurrent();
 
     @Override
-    protected void init(VaadinRequest vaadinRequest) {        
+    protected void init(VaadinRequest vaadinRequest) {    
+                    this.setImmediate(true);
+
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         if (vSession.getAttribute("user") == null) {
 
@@ -45,6 +48,16 @@ public class MyUI extends UI {
         } else {
             MainMenu mm = new MainMenu();
             mm.getMainMenu(horizontalLayout);
+                           this.setPollInterval(3000);
+
+                      this.addPollListener(new UIEvents.PollListener() {
+            @Override
+            public void poll(UIEvents.PollEvent event) {
+                    horizontalLayout.removeAllComponents();
+                    mm.getMainMenu(horizontalLayout);
+
+          }
+        });
 
         }
 

@@ -74,6 +74,9 @@ public class Tablero {
                 if(match.getTurn()%2 == 0){
                     User ganador = MongoClientHelper.findUser(match.getP2());
                     ganador.setWon(ganador.getWon()+1);
+                    User perdedor = MongoClientHelper.findUser(match.getP1());
+                    perdedor.setLost(ganador.getLost()+1);
+
                     MongoClientHelper.updateEntity(ganador);
                     winnerLabel.setCaption("GANA " + match.getP2());
                     Notification.show("GANA " + match.getP2(), Notification.Type.ERROR_MESSAGE);
@@ -85,7 +88,9 @@ public class Tablero {
                     Notification.show("GANA " + match.getP1(), Notification.Type.ERROR_MESSAGE);
                     match.setWinner(match.getP1());
                     User ganador = MongoClientHelper.findUser(match.getP1());
+                    User perdedor = MongoClientHelper.findUser(match.getP2());
                     ganador.setWon(ganador.getWon()+1);
+                    perdedor.setLost(ganador.getLost()+1);
                     MongoClientHelper.updateEntity(ganador);
                     match.setTurn(42);
 

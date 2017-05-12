@@ -10,10 +10,12 @@ import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import es.upo.connect4.Database.MongoClientHelper;
 import es.upo.connect4.Database.User;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,27 +35,20 @@ public class MainMenu implements Serializable{
         
         VerticalLayout usersChatLayout = ucl.getUsuariosAndChat();
         usersChatLayout.setImmediate(true);
-        VerticalLayout openMatchesLayout = new VerticalLayout();
+        VerticalLayout clasificacion = new VerticalLayout();
         
-        List<String> openMatchesList = MongoClientHelper.findMyOpenMatches(u.getUsername());
-        for(String thisUser : openMatchesList){
-                    BrowserWindowOpener gameOpener = new BrowserWindowOpener(PopUpGame.class);
-                    gameOpener.setFeatures("height=800,width=800");
-                    gameOpener.setUriFragment("connect4match");
-
-            Button b = new Button(thisUser);
-                    gameOpener.extend(b);
-                    b.addClickListener(new Button.ClickListener() {
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-             gameOpener.setParameter(thisUser, u.getUsername());
-             openMatchesLayout.addComponent(b);
-            }
-        });
-                    
-
-            
+        Label l = new Label("CLASIFICACIÓN:");
+        
+        clasificacion.addComponent(l);
+        List<User> listaUsuarios = MongoClientHelper.findAllUsers();
+        Collections.sort(listaUsuarios);
+        for (int i = 0;i<10;i++) {
+            User player = listaUsuarios.get(i);
+            int points = 3 *player.getWon() + player.getDraws();
+            Label playerLabel = new Label((i+1) +": " + player.getUsername() + "          W: " +player.getWon() + "       D: "+ player.getDraws()+  "       D: "+ player.getDraws()+  "       POINTS: "+ points);
+            clasificacion.addComponent(new Label("________________________________________________________________________________________"));
+           clasificacion.addComponent(playerLabel);
+           clasificacion.addComponent(new Label("________________________________________________________________________________________"));
         }
        usersChatLayout.addComponent(openMatchesLayout);
        horizontalLayout.addComponent(usersChatLayout);       
@@ -72,6 +67,9 @@ public class MainMenu implements Serializable{
             }
         });
         horizontalLayout.addComponent(logout);
+        horizontalLayout.addComponent(clasificacion);
+        horizontalLayout.addComponent(usersChatLayout);
+        
     }
     
    
