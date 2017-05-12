@@ -42,7 +42,7 @@ public class PopUpGame extends UI {
             this.setContent(v);
             //(new Thread(this)).start();
            // new MatchsListener(this,t,m,v).doWork();
-this.setPollInterval(1000);
+            this.setPollInterval(1000);
          
               this.addPollListener(new UIEvents.PollListener() {
             @Override
