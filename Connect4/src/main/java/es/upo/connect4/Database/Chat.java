@@ -49,9 +49,7 @@ public class Chat implements EntityObject, Comparable<Chat> {
 
     public void setId(String _id) {
         this._id = _id;
-    }
-
-    
+    }    
 
     public String getRev() {
         return _rev;

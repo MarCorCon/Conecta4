@@ -38,6 +38,7 @@ public class PopUpChat extends UI{
                        Notification.show("Error: usuario no válido", Notification.Type.ERROR_MESSAGE);
 
         }
+
         VerticalLayout chatLayout = new VerticalLayout();
         //chatLayout.setImmediate(true);
         VerticalLayout sendLayout = new VerticalLayout();
